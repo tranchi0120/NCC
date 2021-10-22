@@ -13,7 +13,7 @@
 
 - Bonus (Optional): Add timing for each Items. Notify when it nearly the deadline (before deadline 1h)
 
-2. Should has great UI
+2. Should have great UI
 
 3. Integrate with BE (Can reuse [Placeholder](https://jsonplaceholder.typicode.com/) or create your own BE by using [mockend](https://mockend.com/))
 
