@@ -15,7 +15,7 @@
 
 2. Should have great UI
 
-3. Integrate with BE (Can reuse [Placeholder](https://jsonplaceholder.typicode.com/) or create your own BE by using [my-json-server](https://my-json-server.typicode.com/))
+3. Integrate with BE (Can reuse [Placeholder](https://jsonplaceholder.typicode.com/) or create your own BE by using [mockapi](https://mockapi.io/docs))
 
 4. Recommend Library 
 
