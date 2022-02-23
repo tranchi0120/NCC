@@ -1,7 +1,7 @@
 # TODO App 
 ## Requirement
 
-1. Create a powerful Todo app with React and Typescript
+1. Create a powerful Todo app with React and Typescript. Read [react-typescript-cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
 
 - Todo list with CRUD functions
 - Filter by status: All/Completed/Active
