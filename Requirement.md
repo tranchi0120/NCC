@@ -1,6 +1,11 @@
 # TODO App 
 ## Requirement
 
+0. Init project by using create-react-app with typescript template
+```
+npx create-react-app todo-app --template typescript
+```
+
 1. Create a powerful Todo app with React and Typescript. Read [react-typescript-cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
 
 - Todo list with CRUD functions
