@@ -16,7 +16,7 @@ npx create-react-app todo-app --template typescript
     + Can follow a design in the internet
     + Have to follow the principle in some example UI design theme. (Ex: https://element.eleme.io/#/en-US/theme/preview)
 
-- Bonus (Optional): Add timing for each Items. Notify when it nearly the deadline (before deadline 1h)
+- Add timing for each Items. Notify when it nearly the deadline (before deadline 1h)
 
 2. Should have great UI
 
