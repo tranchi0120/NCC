@@ -1,31 +1,102 @@
-# TODO App 
+# Time sheet App
+
 ## Requirement
+
+### Create TimeSheet App
 
 0. Init project by using create-react-app with typescript template
 ```
-yarn
-
-yarn prepare
+npx create-react-app todo-app --template typescript
 ```
 
-1. Create a powerful Todo app with React and Typescript. Read [react-typescript-cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
-- Use Context and useReducer() for sharing state.
-- Todo list with CRUD functions.
-- Filter by status: All/Completed/Active
-- Counter for each status. All: `3 active items / 10 items`; Completed: `7 completed items / 10 items`, Active: `3 active items / 10 items`.
-- Style by yourself, *do not* use external UI lib like Material-UI, AntDesign...
-    + Use SCSS Module or CSS Module
-    + Can follow a design in the internet
-    + Have to follow the principle in some example UI design theme. (Ex: https://element.eleme.io/#/en-US/theme/preview)
+1. Finish component design before working on TaskManagement and Project Management Feature. Follow this expample:
 
-- Add timing for each Items. Notify when it nearly the deadline (before deadline 1h)
+``` jsx
+// <!-- Task Page -->
 
-2. Should have great UI
+<CardComponent>
+  {/*
+    CardComponentProps:
+      props: {
+        header: (ReactNode | Element) or (title: string, action: function), 
+        children
+        // etc...
+      }
+  */}
 
-3. Integrate with BE (Can reuse [Placeholder](https://jsonplaceholder.typicode.com/) or create your own BE by using [mockapi](https://mockapi.io/docs))
+  <TaskHeader>
+    {/* TaskHeaderComponent
+       props: {
+         // etc...
+       }
+     */}
+  </TaskHeader>
 
-4. Recommend Library 
-- Axios (Create axios instance)
+  <TaskList></TaskList>
+  {/* etc... */}
+  <CreateOrEditDialog></CreateOrEditDialog>
+</CardComponent>
+
+```
+
+2. Current timesheet app:
+
+- Sample app: http://training-timesheet.nccsoft.vn 
+- Swagger: http://training-api-timesheet.nccsoft.vn 
+- Account: `admindev/123qwe`
+
+3. Reuse current backend api and rebuild 3 features: Authentication, Project Manager
+
+- Login/Logout
+- [Project Manager](http://dev.timesheet.nccsoft.vn/app/main/projects)
+    - Project Create/Edit should be a separated page. Then we will have 4 child page: General/Team/Tasks/Notification. Use nested route.
+    - Use step UI for 4 child pages: General/Team/Tasks/Notification
+    - Project View should have one more tab, it's Team tab to show members in project. It's the same as Team in Project Create/Edit
+- Add unit test for project feature. Read more in [Jest](https://jestjs.io/docs/getting-started)
+- Use context and useReducer() hook for state sharing.
+
+4. Feel free for choosing which design pattern, UI lib that you want but have to match:
+
+- Great UI/UX and Try if we can make it better than the sample.
+- Clear & Clean source code - Easy for understanding and maintaining.
+- Regarding to UI lib, use theme to customize application style.
+
+5. Recommended Library
+
+- [Axios](https://github.com/axios/axios) for http request
+- [react-router-dom](https://reactrouter.com/web/guides/quick-start) for routing
+- [react-hook-form](https://react-hook-form.com/get-started) or [formik](https://formik.org/docs/overview) for form handling
+- [yup](https://github.com/jquense/yup) for validation
+- [material-ui](https://material-ui.com/getting-started/installation/) or [antd](https://ant.design/docs/react/getting-started) for UI lib
+
+6. Structure/Architecture
+
+Read more in 
+
+- https://reactjs.org/docs/faq-structure.html
+- https://engineering.opsgenie.com/how-to-organize-react-files-before-its-messed-up-c85387f691be
+- http://ops.nccsoft.vn/DefaultCollection/ncc-front-end-training/_wiki/wikis/ncc-front-end-training.wiki/2106/React-Example-Structure
+
+You can chose once of the following:
+
+    5.1. Group by File Type
+
+        - https://reactjs.org/docs/faq-structure.html#grouping-by-file-type
+
+    5.2. Group by Feature (Default redux cra template)
+
+        - https://reactjs.org/docs/faq-structure.html#grouping-by-features-or-routes
+        - https://www.youtube.com/watch?v=w4t527D69vI
+        - https://github.com/reduxjs/cra-template-redux
+
+7. Recommended Pattern
+
+    - https://www.patterns.dev/posts/#design-patterns
+
+8. Recommended template
+
+  - https://material-ui.com/store/
+
 
 ## [NCC React basic checklist](https://nccasia.github.io/ncc-react-basic/)
 
@@ -38,7 +109,6 @@ https://www.freecodecamp.org/news/how-to-write-cleaner-react-code/
 ## Working Process
 
 [View details](https://ops.nccsoft.vn/DefaultCollection/ncc-front-end-training/_wiki/wikis/ncc-front-end-training.wiki/448/About)
-
 
 # Getting Started with Create React App
 
