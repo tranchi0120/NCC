@@ -4,9 +4,11 @@
 
 ### Create TimeSheet App
 
-0. Init project by using create-react-app with typescript template
+0. 0. Install and prepare
 ```
-npx create-react-app todo-app --template typescript
+yarn
+
+yarn prepare
 ```
 
 1. Finish component design before working on TaskManagement and Project Management Feature. Follow this expample:
