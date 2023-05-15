@@ -33,6 +33,8 @@ const authSlice = createSlice({
 
       if (actions.payload.isRemember) {
         localStorage.setItem(USER_INFO, actions.payload.accessToken);
+      } else {
+        sessionStorage.setItem(USER_INFO, actions.payload.accessToken);
       }
     },
     loginFailed: (state) => {

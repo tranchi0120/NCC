@@ -4,9 +4,9 @@ import ERoute from './RouterLink';
 import Login from '../features/pages/Login/Login';
 import NotFound from '../features/pages/NotFound/NotFound';
 import App from '../App';
-import Home from '../features/pages/Home/Home';
 import Project from '../features/pages/Project/Project';
 import getAccessToken from '../utils/getAccessToken';
+import Home from '../features/pages/Home/Home';
 
 interface props {
   children: ReactNode
@@ -14,7 +14,7 @@ interface props {
 
 export const PrivateRoute = ({ children }: props): any => {
   const userInfo = getAccessToken();
-  if (userInfo === null) {
+  if (userInfo.length === 0) {
     return <Navigate to={ERoute.LOGIN} />;
   }
   return <>{children}</>;

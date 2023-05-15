@@ -64,7 +64,7 @@ const Login: FC = () => {
     if (userInfo.length > 0) {
       navigate(ERoute.HOME);
     }
-  }, [userInfo]);
+  }, []);
   return (
     <div className="wrapper">
       <div className='login'>
