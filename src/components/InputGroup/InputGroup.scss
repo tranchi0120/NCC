@@ -1,0 +1,28 @@
+@use "../../assets/styles/_variabels" as variable;
+.group {
+  &-input {
+    &__label {
+      display: block;
+      line-height: 1.2rem;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    &__text {
+      padding: 12px 7px;
+      width: 250px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      font-size: 18px;
+      font-family: variable.$font;
+    }
+    &__text::placeholder {
+      font-size: 15px;
+    }
+    &__message-error {
+      font-size: 15px;
+      color: variable.$color-error-login;
+      transition: 0.2s;
+    }
+  }
+}

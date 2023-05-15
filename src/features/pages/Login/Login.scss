@@ -1,0 +1,42 @@
+@use "../../../assets/styles/_variabels" as variable;
+
+.login {
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  height: 500px;
+  display: flex;
+  color: variable.$color-white;
+  border-radius: 15px;
+  &-form {
+    &__title {
+      letter-spacing: 4px;
+      font-size: 40px;
+      line-height: 1.2;
+      text-align: center;
+      font-weight: 400;
+      margin: 0;
+      font-family: variable.$font;
+      padding-bottom: 20px;
+    }
+    &__footer {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+  &-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  &-title {
+    &__checkbox {
+      font-family: variable.$font;
+      color: variable.$color-white;
+    }
+  }
+}
