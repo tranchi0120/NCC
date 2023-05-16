@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { FC } from 'react';
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { Button, Checkbox, Spin } from 'antd';
@@ -11,11 +11,8 @@ import { AppDispatch } from '../../../redux/store';
 import './Login.scss';
 
 import * as authServices from '../../../services/authServices';
-
-import getAccessToken from '../../../utils/getAccessToken';
 import { selectAuthStore } from '../../../redux/slice/AuthSlice';
 import { IFormikValues } from '../../../interfaces/interface';
-import ERoute from '../../../router/RouterLink';
 import InputGroup from '../../../components/InputGroup/InputGroup';
 
 const LoginSchema = Yup.object().shape({
@@ -30,15 +27,11 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: FC = () => {
-  const userInfo = getAccessToken();
-
   const [rememberClient, setRememberClient] = useState(false);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const authStore = useAppSelector(selectAuthStore);
-
   const initFormValue: IFormikValues = useMemo(() => {
     return {
       userNameOrEmailAddress: '',
@@ -56,15 +49,9 @@ const Login: FC = () => {
     navigate: NavigateFunction
   ): Promise<void> => {
     const user = { ...values, rememberClient };
-
     await authServices.login(user, dispatch, navigate);
   };
 
-  useEffect(() => {
-    if (userInfo.length > 0) {
-      navigate(ERoute.HOME);
-    }
-  }, []);
   return (
     <div className="wrapper">
       <div className='login'>

@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &-left {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-left: 30px;
+  }
+  &-img {
+    max-width: 50px;
+    height: 50px;
+    &__logo {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  &-title {
+    font-size: 25px;
+    font-weight: 300;
+    color: #ffffff;
+  }
+  &-logout {
+    background-color: #394046;
+    display: block;
+    margin-right: 30px;
+    height: 40px;
+    width: 100px;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+  }
+  &-logout:hover {
+    background-color: #53575c;
+  }
+}

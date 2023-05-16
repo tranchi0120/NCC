@@ -1,0 +1,28 @@
+@use "../styles/_variabels" as v;
+.layout {
+  &-commont {
+    margin: 15px;
+    border-radius: 15px;
+  }
+  &-header {
+    height: 80px;
+    background: v.$color-bg-header;
+    box-shadow: v.$box-shadow;
+  }
+  &-sidebar {
+    width: 350px;
+    box-shadow: v.$box-shadow;
+  }
+  &-children {
+    padding: 10px;
+    width: 100%;
+    margin: 20px;
+    box-sizing: border-box;
+    box-shadow: v.$box-shadow;
+  }
+  &-bottom {
+    display: flex;
+    position: relative;
+    height: 100vh;
+  }
+}

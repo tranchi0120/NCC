@@ -1,9 +1,8 @@
 import * as React from 'react';
 import type { FC } from 'react';
 import { Layout } from 'antd';
-import { Content } from 'antd/es/layout/layout';
+import { Content, Header } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
-
 export interface ISidebarLayoutProps {
   children: React.ReactNode
 }
@@ -11,12 +10,10 @@ export interface ISidebarLayoutProps {
 const RootLayout: FC<ISidebarLayoutProps> = ({ children }) => {
   return (
     <Layout>
-      {/* <Header className='header'>Header</Header> */}
+      <Header>Header</Header>
       <Layout>
-        <Sider>Sidebar</Sider>
-        <Layout>
-          <Content>{children}</Content>
-        </Layout>
+        <Sider >Sider</Sider>
+        <Content>{children}</Content>
       </Layout>
     </Layout>
   );
