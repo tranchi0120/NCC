@@ -30,25 +30,26 @@ const authSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(userLogin.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(userLogin.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.error = '';
-      state.accessToken = action.payload.accessToken;
-      state.isRemember = action.payload.isRemember;
+    builder
+      .addCase(userLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(userLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = '';
+        state.accessToken = action.payload.accessToken;
+        state.isRemember = action.payload.isRemember;
 
-      if (action.payload.isRemember) {
-        localStorage.setItem(USER_INFO, action.payload.accessToken);
-      } else {
-        sessionStorage.setItem(USER_INFO, action.payload.accessToken);
-      }
-    });
-    builder.addCase(userLogin.rejected, (state) => {
-      state.isLoading = false;
-      state.error = 'Fail to login!';
-    });
+        if (action.payload.isRemember) {
+          localStorage.setItem(USER_INFO, action.payload.accessToken);
+        } else {
+          sessionStorage.setItem(USER_INFO, action.payload.accessToken);
+        }
+      })
+      .addCase(userLogin.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Login failed!';
+      });
   }
 });
 
@@ -56,7 +57,7 @@ export const userLogin = createAsyncThunk('auth/login', async (user: IUserLoginD
   const { rememberClient } = user;
 
   const response: ILoginResponse = await axiosClient.post('/api/TokenAuth/Authenticate', user);
-  console.log(response);
+  console.log('response:', response);
   const loginData: ILoginActionData = {
     accessToken: response.accessToken,
     isRemember: rememberClient

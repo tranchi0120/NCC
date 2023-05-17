@@ -19,7 +19,50 @@ export interface ILoginActionData {
   isRemember: boolean
 }
 
+export enum EProjectActionName {
+  CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  VIEW = 'VIEW',
+}
+
+export enum EProjectType {
+  TM = 'Time & Materials',
+  FF = 'Fixed Fee',
+  NB = 'Non-Billable',
+  ODC = 'ODC',
+  P = 'Product',
+  T = 'Training',
+}
+export interface ISortProjectState {
+  customerName: string
+  projects: IAllProjectResponse[]
+}
 export interface ILoginFormState {
   userNameOrEmailAddress: string
   password: string
+}
+export enum EProjectStatus {
+  ACTIVE = 0,
+  DEACTIVE = 1,
+  ALL = 2,
+}
+export interface IProjectQuantity {
+  status: number
+  quantity: number
+}
+export interface IAllProjectResponse {
+  customerName: string
+  name: string
+  code: string
+  status: number
+  psm: string[]
+  activeMember: number
+  projectType: number
+  timeStart: string
+  timeEnd: string
+  id: number
+}
+export interface IParamsForAllProject {
+  status?: EProjectStatus
+  searchValue?: string
 }

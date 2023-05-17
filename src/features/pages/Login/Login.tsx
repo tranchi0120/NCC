@@ -47,9 +47,7 @@ const Login: FC = () => {
 
   const handleLogin = async (values: ILoginFormState): Promise<void> => {
     const user = { ...values, rememberClient };
-
     const result = await dispatch(userLogin(user));
-    console.log('result: ', result);
     if (result.type === 'auth/login/rejected') {
       Noti.error({ description: 'Username or password is incorrect!', message: 'Error' });
     } else {

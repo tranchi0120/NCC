@@ -1,0 +1,56 @@
+@use "../../../../../assets/styles/_variabels" as v;
+
+%theme {
+  display: block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  color: v.$color-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.projectItem {
+  &-clientName {
+    background: #dbd2d2;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 28px;
+  }
+  &-info {
+    display: flex;
+    gap: 10px;
+  }
+  &-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid #c1afaf;
+    margin-top: 10px;
+    padding: 10px;
+  }
+  &-nameProject {
+    pointer-events: none;
+    color: v.$color-nameProject;
+  }
+
+  &-mentor {
+    @extend %theme;
+    background: v.$bgr-prj-member;
+  }
+  &-quantityStaff {
+    @extend %theme;
+    background: v.$bgr-quantityMember;
+  }
+  &-time {
+    @extend %theme;
+    background: v.$bgr-time;
+  }
+  &-projectType {
+    @extend %theme;
+    background: v.$bgr-projectType;
+  }
+}

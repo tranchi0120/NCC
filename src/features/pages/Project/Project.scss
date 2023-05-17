@@ -28,4 +28,9 @@
       width: 400px;
     }
   }
+  &-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
