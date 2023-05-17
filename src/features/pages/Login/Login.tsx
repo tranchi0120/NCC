@@ -1,19 +1,20 @@
 import * as React from 'react';
 import type { FC } from 'react';
 import { useMemo, useState, useCallback } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { Button, Checkbox, Spin } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { Formik, Form } from 'formik';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { AppDispatch } from '../../../redux/store';
 import './Login.scss';
 
-import * as authServices from '../../../services/authServices';
-import { selectAuthStore } from '../../../redux/slice/AuthSlice';
-import { IFormikValues } from '../../../interfaces/interface';
+import { selectAuthStore, userLogin } from '../../../redux/slice/AuthSlice';
+import { IFormikValues, ILoginFormState } from '../../../interfaces/interface';
 import InputGroup from '../../../components/InputGroup/InputGroup';
+import Noti from '../../../Noti/notification';
+import ERoute from '../../../router/RouterLink';
+import getAccessToken from '../../../utils/getAccessToken';
 
 const LoginSchema = Yup.object().shape({
   userNameOrEmailAddress: Yup.string()
@@ -27,6 +28,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: FC = () => {
+  const userInfo = getAccessToken();
   const [rememberClient, setRememberClient] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -43,14 +45,24 @@ const Login: FC = () => {
     setRememberClient(e.target.checked);
   }, []);
 
-  const handleLogin = async (
-    values: IFormikValues,
-    dispatch: AppDispatch,
-    navigate: NavigateFunction
-  ): Promise<void> => {
+  const handleLogin = async (values: ILoginFormState): Promise<void> => {
     const user = { ...values, rememberClient };
-    await authServices.login(user, dispatch, navigate);
+
+    const result = await dispatch(userLogin(user));
+    console.log('result: ', result);
+    if (result.type === 'auth/login/rejected') {
+      Noti.error({ description: 'Username or password is incorrect!', message: 'Error' });
+    } else {
+      navigate(ERoute.HOME);
+      Noti.success({ message: 'Success', description: 'Login successfully.' });
+    }
   };
+
+  React.useEffect(() => {
+    if (userInfo.length > 0) {
+      navigate(ERoute.HOME);
+    }
+  }, []);
 
   return (
     <div className="wrapper">
@@ -59,7 +71,7 @@ const Login: FC = () => {
           initialValues={initFormValue}
           validationSchema={LoginSchema}
           onSubmit={(values) => {
-            void handleLogin(values, dispatch, navigate);
+            void handleLogin(values);
           }}
         >
           {({ errors, touched }) => (

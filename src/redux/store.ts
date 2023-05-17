@@ -14,6 +14,7 @@ import authReducer from './slice/AuthSlice';
 
 const authConfig = {
   key: 'auth',
+  version: 1,
   storage
 };
 

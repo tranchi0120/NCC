@@ -18,3 +18,8 @@ export interface ILoginActionData {
   accessToken: string
   isRemember: boolean
 }
+
+export interface ILoginFormState {
+  userNameOrEmailAddress: string
+  password: string
+}

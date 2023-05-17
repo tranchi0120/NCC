@@ -1,20 +1,21 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { ILoginActionData } from '../../interfaces/interface';
+import { ILoginActionData, IUserLoginData, ILoginResponse } from '../../interfaces/interface';
+import axiosClient from '../../api/axiosClient';
 
 export const USER_INFO = 'USER_INFO';
 
 interface IAuthState {
   isLoading: boolean
   isRemember: boolean
-  isError: boolean
+  error: string
   accessToken: string
 }
 
 const initialState: IAuthState = {
   isLoading: false,
   isRemember: false,
-  isError: false,
+  error: '',
   accessToken: ''
 };
 
@@ -22,41 +23,48 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginStart: (state) => {
-      state.isLoading = true;
-    },
-    loginSuccess: (state, actions: PayloadAction<ILoginActionData>) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isRemember = actions.payload.isRemember;
-      state.accessToken = actions.payload.accessToken;
-
-      if (actions.payload.isRemember) {
-        localStorage.setItem(USER_INFO, actions.payload.accessToken);
-      } else {
-        sessionStorage.setItem(USER_INFO, actions.payload.accessToken);
-      }
-    },
-    loginFailed: (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    },
     logoutSuccess: (state) => {
-      state.isError = false;
-      state.isRemember = false;
-      state.accessToken = '';
+      state = initialState;
       localStorage.removeItem(USER_INFO);
       sessionStorage.removeItem(USER_INFO);
-    },
-    logoutFailed: (state) => {
-      state.isError = true;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userLogin.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(userLogin.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = '';
+      state.accessToken = action.payload.accessToken;
+      state.isRemember = action.payload.isRemember;
+
+      if (action.payload.isRemember) {
+        localStorage.setItem(USER_INFO, action.payload.accessToken);
+      } else {
+        sessionStorage.setItem(USER_INFO, action.payload.accessToken);
+      }
+    });
+    builder.addCase(userLogin.rejected, (state) => {
+      state.isLoading = false;
+      state.error = 'Fail to login!';
+    });
   }
 });
 
-export const { loginStart, loginSuccess, loginFailed, logoutSuccess, logoutFailed } =
-  authSlice.actions;
+export const userLogin = createAsyncThunk('auth/login', async (user: IUserLoginData) => {
+  const { rememberClient } = user;
 
+  const response: ILoginResponse = await axiosClient.post('/api/TokenAuth/Authenticate', user);
+  console.log(response);
+  const loginData: ILoginActionData = {
+    accessToken: response.accessToken,
+    isRemember: rememberClient
+  };
+
+  return loginData;
+});
+
+export const { logoutSuccess } = authSlice.actions;
 export const selectAuthStore = (state: RootState): IAuthState => state.auth;
-
 export default authSlice.reducer;

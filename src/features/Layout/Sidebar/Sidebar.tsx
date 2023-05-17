@@ -3,6 +3,8 @@ import avt from '../../../assets/images/avatar.jpg';
 import HomeIcon from '@mui/icons-material/Home';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import './Sidebar.scss';
+import { Link } from 'react-router-dom';
+import ERoute from '../../../router/RouterLink';
 
 const Sidebar = (): JSX.Element => {
   return (
@@ -17,14 +19,16 @@ const Sidebar = (): JSX.Element => {
         </div>
       </div>
       <div className="sidebar-bottom ">
-        <div className="sidebar-box">
+        <Link to={ERoute.HOME} className="sidebar-box">
           <HomeIcon />
           <span>Home</span>
-        </div>
-        <div className="sidebar-box">
+        </Link>
+        <Link to={ERoute.PROJECT} className="sidebar-box">
           <AssessmentIcon />
-          <span>Project</span>
-        </div>
+          <span>
+            Project
+          </span>
+        </Link>
       </div>
     </div>
   );

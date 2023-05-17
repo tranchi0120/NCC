@@ -15,10 +15,10 @@ export const PrivateRoute = ({ children }: props): any => {
   const navigate = useNavigate();
   const userInfo = getAccessToken();
   useEffect(() => {
-    if (userInfo.length > 0) {
+    if (userInfo.length !== 0) {
       navigate(ERoute.HOME);
     }
-  }, []);
+  }, [userInfo]);
 
   if (userInfo.length === 0) {
     return <Navigate to={ERoute.LOGIN} />;
@@ -49,11 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: ERoute.PROJECT,
-        element: (
-          <PrivateRoute>
-            <Project />
-          </PrivateRoute>
-        )
+        element: <Project />
       }
     ]
   }

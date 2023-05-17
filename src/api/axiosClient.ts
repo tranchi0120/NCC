@@ -23,25 +23,21 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   (response) => {
+    if (response.data?.result !== null) {
+      return response.data.result;
+    }
     return response;
   },
   async (error: AxiosError): Promise<AxiosError> => {
     const status = error.response?.status;
-    const originRequest = error.config;
 
     switch (status) {
-      case 500: {
-        if (originRequest?.url === '/api/TokenAuth/Authenticate') {
-          Noti.error({ description: 'Username or password is incorrect!', message: 'Error' });
-        }
-        break;
-      }
       case 401: {
         window.location.href = ERoute.LOGIN;
         Noti.error({ description: 'Unauthorized!', message: 'Error' });
-        break;
       }
     }
+
     return await Promise.reject(error);
   }
 );

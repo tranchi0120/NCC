@@ -2,17 +2,21 @@
 import React from 'react';
 import logoNcc from '../../../assets/images/logoNcc.png';
 import './Header.scss';
-import * as authServices from '../../../services/authServices';
-// import { AppDispatch } from '../../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../redux/hooks';
+import ERoute from '../../../router/RouterLink';
+import { logoutSuccess } from '../../../redux/slice/AuthSlice';
+import Noti from '../../../Noti/notification';
 
 const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = async (): Promise<void> => {
-    await authServices.logout(dispatch, navigate);
+  const handleLogout = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
+    e.stopPropagation();
+    navigate(ERoute.LOGIN);
+    dispatch(logoutSuccess());
+    Noti.success({ message: 'Success', description: 'Logout successfully!' });
   };
 
   return (
