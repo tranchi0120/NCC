@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import getProjectQuantity from '../thunnkFuntion/getQuantityProject';
 import { EProjectStatus, IAllProjectResponse } from '../../interfaces/interface';
 import { RootState } from '../store';
@@ -16,10 +16,6 @@ interface IProjectState {
     data: IAllProjectResponse[]
     isError: boolean
   }
-  searchProject: {
-    isLoading: boolean
-    search: string
-  }
 }
 
 const initialState: IProjectState = {
@@ -28,20 +24,13 @@ const initialState: IProjectState = {
     isLoading: false,
     data: [],
     isError: false
-  },
-  searchProject: { isLoading: false, search: '' }
+  }
 };
 
 const ProjectSlice = createSlice({
   name: 'project',
   initialState,
-  reducers: {
-    SearchProject: (state, action: PayloadAction<string>) => {
-      state.searchProject.isLoading = true;
-      state.searchProject.search = action.payload;
-      state.searchProject.isLoading = false;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getProjectQuantity.pending, (state) => {
@@ -90,5 +79,4 @@ const ProjectSlice = createSlice({
   }
 });
 export const selectProjectStore = (state: RootState): IProjectState => state.project;
-export const { SearchProject } = ProjectSlice.actions;
 export default ProjectSlice;
