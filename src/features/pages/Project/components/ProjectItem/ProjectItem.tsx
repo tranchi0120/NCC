@@ -3,16 +3,12 @@ import type { FC } from 'react';
 import './ProjectItem.scss';
 import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
 import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
-import { EProjectActionName, EProjectType, IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
-import { useAppDispatch } from '../../../../../redux/hooks';
-import { IModalAction, modalOpen } from '../../../../../redux/slice/projectActionsSlice';
-
+import { EProjectType, IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
 
 const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
-  const dispatch = useAppDispatch();
   const getProjectTime = useCallback(
     (timeStart: string | null, timeEnd: string | null): string | null => {
       if (timeStart === null || timeEnd === null) {
@@ -51,26 +47,18 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       }
     }
   };
-  const handleMenuClick = ({ action, title }: IModalAction, project: IAllProjectResponse): void => {
-    dispatch(modalOpen({ action, title }));
-    // Handle with "project" after
-  };
 
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
     return [
       {
         label: 'Edit',
         key: '1',
-        icon: <EditOutlined />,
-        onClick: () =>
-          handleMenuClick({ action: EProjectActionName.EDIT, title: 'Edit Project' }, project)
+        icon: <EditOutlined />
       },
       {
         label: 'View',
         key: '2',
-        icon: <EyeOutlined />,
-        onClick: () =>
-          handleMenuClick({ action: EProjectActionName.VIEW, title: 'View Project' }, project)
+        icon: <EyeOutlined />
       },
       {
         label: 'Deactive',

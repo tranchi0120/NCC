@@ -31,12 +31,12 @@ export enum EProjectActionName {
 }
 
 export enum EProjectType {
-  TM = 'Time & Materials',
-  FF = 'Fixed Fee',
-  NB = 'Non-Billable',
+  TM = 'TM',
+  FF = 'FF',
+  NB = 'NB',
   ODC = 'ODC',
-  P = 'Product',
-  T = 'Training'
+  P = 'P',
+  T = 'T'
 }
 export interface ISortProjectState {
   customerName: string

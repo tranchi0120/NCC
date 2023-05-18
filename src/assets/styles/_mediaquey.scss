@@ -1,0 +1,15 @@
+@media only screen and (max-width: 1023px) {
+  .project {
+    &-top {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+  }
+  .projectItem {
+    &-profile {
+      display: flex;
+      gap: 30px;
+    }
+  }
+}
