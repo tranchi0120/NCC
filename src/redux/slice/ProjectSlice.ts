@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import getProjectQuantity from '../thunnkFuntion/getQuantityProject';
 import { EProjectStatus, IAllProjectResponse } from '../../interfaces/interface';
 import { RootState } from '../store';
@@ -16,6 +16,10 @@ interface IProjectState {
     data: IAllProjectResponse[]
     isError: boolean
   }
+  searchProject: {
+    isLoading: boolean
+    search: string
+  }
 }
 
 const initialState: IProjectState = {
@@ -24,13 +28,20 @@ const initialState: IProjectState = {
     isLoading: false,
     data: [],
     isError: false
-  }
+  },
+  searchProject: { isLoading: false, search: '' }
 };
 
 const ProjectSlice = createSlice({
   name: 'project',
   initialState,
-  reducers: {},
+  reducers: {
+    SearchProject: (state, action: PayloadAction<string>) => {
+      state.searchProject.isLoading = true;
+      state.searchProject.search = action.payload;
+      state.searchProject.isLoading = false;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProjectQuantity.pending, (state) => {
@@ -40,14 +51,22 @@ const ProjectSlice = createSlice({
         state.projectQuantity.isLoading = false;
         state.projectQuantity.isError = false;
 
-        const projectQuantity = {
-          active: action.payload
-            .filter(project => project.status === EProjectStatus.ACTIVE)
-            .reduce((acc, project) => acc + project.quantity, 0),
-          deactive: action.payload
-            .filter(project => project.status === EProjectStatus.DEACTIVE)
-            .reduce((acc, project) => acc + project.quantity, 0)
-        };
+        const projectQuantity = action.payload.reduce(
+          (acc, currentValue): { active: number, deactive: number } => {
+            switch (currentValue.status) {
+              case EProjectStatus.ACTIVE: {
+                return { ...acc, active: currentValue.quantity };
+              }
+              case EProjectStatus.DEACTIVE: {
+                return { ...acc, deactive: currentValue.quantity };
+              }
+              default: {
+                return acc;
+              }
+            }
+          },
+          { active: 0, deactive: 0 }
+        );
         state.projectQuantity.active = projectQuantity.active;
         state.projectQuantity.deactive = projectQuantity.deactive;
       })
@@ -71,4 +90,5 @@ const ProjectSlice = createSlice({
   }
 });
 export const selectProjectStore = (state: RootState): IProjectState => state.project;
-export default ProjectSlice.reducer;
+export const { SearchProject } = ProjectSlice.actions;
+export default ProjectSlice;

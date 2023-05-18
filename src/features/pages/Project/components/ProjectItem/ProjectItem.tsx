@@ -18,11 +18,14 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       if (timeStart === null || timeEnd === null) {
         return null;
       }
-      return `${timeStart.split('T')[0]} - ${timeEnd.split('T')[0]}`;
+      const startDate = new Date(timeStart);
+      const endDate = new Date(timeEnd);
+      const formattedStartDate = startDate.toLocaleDateString('en-GB');
+      const formattedEndDate = endDate.toLocaleDateString('en-GB');
+      return `${formattedStartDate} - ${formattedEndDate}`;
     },
     []
   );
-
   const getProjectType = (projectType: number): string | null => {
     switch (projectType) {
       case 0: {

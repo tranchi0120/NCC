@@ -18,6 +18,11 @@ export interface ILoginActionData {
   accessToken: string
   isRemember: boolean
 }
+export enum EProjectStatusTitle {
+  ACTIVE = 'Active Projects',
+  DEACTIVE = 'Deactive Projects',
+  ALL = 'All Projects',
+}
 
 export enum EProjectActionName {
   CREATE = 'CREATE',

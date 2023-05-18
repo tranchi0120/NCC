@@ -2,8 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { EProjectActionName } from '../../interfaces/interface';
 
-// refactor after
-
 interface IProjectActionsState {
   isModalOpen: boolean
   modalTitle: string
@@ -45,4 +43,4 @@ export const { modalOpen, modalClose } = projectActionsSlice.actions;
 export const selectProjectActionsStore = (state: RootState): IProjectActionsState =>
   state.projectActions;
 
-export default projectActionsSlice.reducer;
+export default projectActionsSlice;

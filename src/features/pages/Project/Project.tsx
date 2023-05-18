@@ -1,31 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import type { FC } from 'react';
 import './Project.scss';
-import { Button, Select } from 'antd';
-import Search from 'antd/es/transfer/search';
+import { Button, Select, Input as Search, InputRef } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { selectProjectStore } from '../../../redux/slice/ProjectSlice';
 import getAllProject from '../../../redux/thunnkFuntion/getAllProject';
-import { EProjectStatus } from '../../../interfaces/interface';
+import { EProjectStatus, EProjectStatusTitle } from '../../../interfaces/interface';
 import { CircularProgress } from '@material-ui/core';
 import ProjectItem from './components/ProjectItem/ProjectItem';
 import sortProject from '../../../utils/sortProject';
+import getProjectQuantity from '../../../redux/thunnkFuntion/getQuantityProject';
+import { SearchOutlined } from '@ant-design/icons';
 
 const Project: FC = () => {
   const dispatch = useAppDispatch();
+  const { allProject, projectQuantity } = useAppSelector(selectProjectStore);
   const [projectSelected, setProjectSelected] = useState(EProjectStatus.ACTIVE);
+  const [searchValue, setSearchValue] = useState('');
+  const inputSearchRef = useRef<InputRef | null>(null);
+
+  const optionCanSelect = useMemo(() => {
+    return [
+      {
+        value: EProjectStatus.ACTIVE,
+        label: `${EProjectStatusTitle.ACTIVE} (${projectQuantity.active})`
+      },
+      {
+        value: EProjectStatus.DEACTIVE,
+        label: `${EProjectStatusTitle.DEACTIVE} (${projectQuantity.deactive})`
+      },
+      {
+        value: EProjectStatus.ALL,
+        label: `${EProjectStatusTitle.ALL} (${projectQuantity.active + projectQuantity.deactive})`
+      }
+    ];
+  }, [projectQuantity]);
 
   const onSelectChange = (value: number): void => {
     setProjectSelected(value);
   };
 
-  const { allProject } = useAppSelector(selectProjectStore);
+  const onInputEnter = async (status: number, searchValue: string | undefined): Promise<void> => {
+    await dispatch(getAllProject({ status, searchValue }));
+  };
 
   useEffect(() => {
     const fetchProject = async (): Promise<void> => {
+      await dispatch(getProjectQuantity());
       await dispatch(getAllProject({ status: projectSelected }));
     };
-
     void fetchProject();
   }, [projectSelected]);
 
@@ -37,16 +60,24 @@ const Project: FC = () => {
           <Button type="primary"> + New ProJect</Button>
           <div className='project-top__search'>
             <Select
-              className='project-top__filterSearch'
+              defaultValue={EProjectStatus.ACTIVE}
               onChange={onSelectChange}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Ludy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-                { value: 'disabled', label: 'Disabled' }
-              ]}
+              value={projectSelected}
+              options={optionCanSelect}
+              className='project-top__filterSearch'
             />
-            <Search placeholder="input search text" />
+            <Search
+              ref={inputSearchRef}
+              className='search-area'
+              size='large'
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onPressEnter={() => {
+                void onInputEnter(projectSelected, searchValue);
+              }}
+              placeholder='Search by client or project name'
+              prefix={<SearchOutlined className='search-icon' />}
+            />
           </div>
         </div>
       </div>
