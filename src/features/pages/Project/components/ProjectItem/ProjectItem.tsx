@@ -1,15 +1,18 @@
 import React, { useCallback } from 'react';
 import type { FC } from 'react';
 import './ProjectItem.scss';
-import { Button, Dropdown, MenuProps, Space, message } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { EProjectType, ISortProjectState } from '../../../../../interfaces/interface';
+import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
+import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
+import { EProjectActionName, EProjectType, IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { IModalAction, modalOpen } from '../../../../../redux/slice/projectActionsSlice';
 
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
 
 const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
+  const dispatch = useAppDispatch();
   const getProjectTime = useCallback(
     (timeStart: string | null, timeEnd: string | null): string | null => {
       if (timeStart === null || timeEnd === null) {
@@ -45,57 +48,64 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       }
     }
   };
-
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
-    void message.info('Click on menu item.');
-    console.log('click', e);
+  const handleMenuClick = ({ action, title }: IModalAction, project: IAllProjectResponse): void => {
+    dispatch(modalOpen({ action, title }));
+    // Handle with "project" after
   };
-  const items: MenuProps['items'] = [
-    {
-      label: '1st menu item',
-      key: '1',
-      icon: <UserOutlined />
-    },
-    {
-      label: '2nd menu item',
-      key: '2',
-      icon: <UserOutlined />
-    },
-    {
-      label: '3rd menu item',
-      key: '3',
-      icon: <UserOutlined />
-    },
-    {
-      label: '4rd menu item',
-      key: '4',
-      icon: <UserOutlined />,
-      danger: true
-    }
-  ];
 
-  const menuProps = {
-    items,
-    onClick: handleMenuClick
-  };
+  const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
+    return [
+      {
+        label: 'Edit',
+        key: '1',
+        icon: <EditOutlined />,
+        onClick: () =>
+          handleMenuClick({ action: EProjectActionName.EDIT, title: 'Edit Project' }, project)
+      },
+      {
+        label: 'View',
+        key: '2',
+        icon: <EyeOutlined />,
+        onClick: () =>
+          handleMenuClick({ action: EProjectActionName.VIEW, title: 'View Project' }, project)
+      },
+      {
+        label: 'Deactive',
+        key: '3',
+        icon: <FolderViewOutlined />
+      },
+      {
+        label: 'Delete',
+        key: '4',
+        icon: <DeleteOutlined />
+      }
+    ];
+  }, []);
+
   return (
     <div className='projectItem'>
       <h2 className='projectItem-clientName'>{projectItem.customerName}</h2>
       {projectItem.projects.length > 0 &&
         projectItem.projects.map((item) => {
+          const items = getMenuItems(item);
+
+          const menuProps = { items };
           return (
             <div className='projectItem-profile' key={item.id}>
               <div className='projectItem-info'>
                 <span className='projectItem-nameProject'>{item.name}</span>
-                <div>
-                  <span className='projectItem-mentor'>{item.psm}</span>
-                </div>
+                <Tooltip zIndex={90} title={item.pms.join(', ')} className='project-members'>
+                  <span className='projectItem-mentor'>{item.pms.join(', ')}</span>
+                </Tooltip>
                 <span className='projectItem-quantityStaff'>{`${item.activeMember} members`}</span>
                 <span className='projectItem-projectType'>{getProjectType(item.projectType)}</span>
                 <span className='projectItem-time'>{getProjectTime(item.timeStart, item.timeEnd)}</span>
               </div>
               <div className="projectItem-action">
-                <Dropdown menu={menuProps}>
+                <Dropdown placement='bottomRight'
+                  menu={menuProps}
+                  trigger={['click']}
+                  className='actions-dropdown'>
                   <Button>
                     <Space>
                       Action

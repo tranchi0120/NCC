@@ -20,12 +20,20 @@
     font-weight: 500;
     font-size: 28px;
   }
+  &-member {
+    max-width: 480px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   &-info {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
   }
   &-profile {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     border-bottom: 0.5px solid #c1afaf;

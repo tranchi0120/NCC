@@ -50,11 +50,8 @@ const Project: FC = () => {
           </div>
         </div>
       </div>
-      <div className="project-group">
+      <div className="project-groupItem">
         <div className="project-bottom">
-          {!allProject.isLoading && allProject.data.length > 0
-            ? (<div>{allProject.data.length} items</div>)
-            : (!allProject.isLoading && allProject.data.length === 0 && <div></div>)}
 
           {allProject.isLoading
             ? (<div className='project-loading'><CircularProgress /></div>)

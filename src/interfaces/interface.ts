@@ -31,7 +31,7 @@ export enum EProjectType {
   NB = 'Non-Billable',
   ODC = 'ODC',
   P = 'Product',
-  T = 'Training',
+  T = 'Training'
 }
 export interface ISortProjectState {
   customerName: string
@@ -55,7 +55,7 @@ export interface IAllProjectResponse {
   name: string
   code: string
   status: number
-  psm: string[]
+  pms: string[]
   activeMember: number
   projectType: number
   timeStart: string
