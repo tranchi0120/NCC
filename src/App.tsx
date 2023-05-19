@@ -4,8 +4,17 @@ import './assets/styles/layout.scss';
 import Sidebar from './features/Layout/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 import Header from './features/Layout/Header/Header';
+import { selectSidebarStore, toggleSidebar } from './redux/slice/SidabarSlice';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
 
 const App = (): JSX.Element => {
+  const { isShowSidebar } = useAppSelector(selectSidebarStore);
+  const dispatch = useAppDispatch();
+
+  const hanleCloseSidebar = (): void => {
+    dispatch(toggleSidebar());
+  };
+
   return (
     <div className='App'>
       <div className='layout'>
@@ -13,9 +22,17 @@ const App = (): JSX.Element => {
           <Header />
         </div>
         <div className='layout-bottom'>
-          <div className='layout-sidebar layout-commont'>
-            <Sidebar />
-          </div>
+          {isShowSidebar
+            ? (
+              <>
+                <aside className='layout-sidebar sidebarOpen layout-commont'>
+                  <Sidebar />
+                </aside>
+                <div className='overlay' onClick={hanleCloseSidebar}></div>
+              </>)
+            : (<aside className='layout-sidebar layout-commont'>
+              <Sidebar />
+            </aside>)}
           <div className='layout-children layout-commont'>
             <Outlet />
           </div>

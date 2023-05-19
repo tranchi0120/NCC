@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import authReducer from './slice/AuthSlice';
 import ProjectSlice from './slice/ProjectSlice';
+import SidebarSlice from './slice/SidabarSlice';
 
 const authConfig = {
   key: 'auth',
@@ -21,7 +22,8 @@ const authConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authConfig, authReducer),
-  project: ProjectSlice.reducer
+  project: ProjectSlice.reducer,
+  sidebar: SidebarSlice.reducer
 });
 
 const store = configureStore({

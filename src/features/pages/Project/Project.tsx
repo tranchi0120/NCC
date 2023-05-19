@@ -3,19 +3,18 @@ import type { FC } from 'react';
 import './Project.scss';
 import { Button, Select, Input as Search, InputRef } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { selectProjectStore } from '../../../redux/slice/ProjectSlice';
-import getAllProject from '../../../redux/thunnkFuntion/getAllProject';
-import { EProjectStatus, EProjectStatusTitle } from '../../../interfaces/interface';
+import { getAllProject, getProjectQuantity, selectProjectStore } from '../../../redux/slice/ProjectSlice';
+import { EProjectStatus } from '../../../interfaces/interface';
 import { CircularProgress } from '@material-ui/core';
 import ProjectItem from './components/ProjectItem/ProjectItem';
 import sortProject from '../../../utils/sortProject';
-import getProjectQuantity from '../../../redux/thunnkFuntion/getQuantityProject';
 import { SearchOutlined } from '@ant-design/icons';
+import { EProjectStatusTitle } from '../../../enums/enums';
 
 const Project: FC = () => {
   const dispatch = useAppDispatch();
   const { allProject, projectQuantity } = useAppSelector(selectProjectStore);
-  const [projectSelected, setProjectSelected] = useState(EProjectStatus.ACTIVE);
+  const [filterSelected, setFilterSelected] = useState(EProjectStatus.ACTIVE);
   const [searchValue, setSearchValue] = useState('');
   const inputSearchRef = useRef<InputRef | null>(null);
 
@@ -36,21 +35,21 @@ const Project: FC = () => {
     ];
   }, [projectQuantity]);
 
-  const onSelectChange = (value: number): void => {
-    setProjectSelected(value);
-  };
-
   const onInputEnter = async (status: number, searchValue: string | undefined): Promise<void> => {
     await dispatch(getAllProject({ status, searchValue }));
+  };
+
+  const onSelectChange = (value: number): void => {
+    setFilterSelected(value);
   };
 
   useEffect(() => {
     const fetchProject = async (): Promise<void> => {
       await dispatch(getProjectQuantity());
-      await dispatch(getAllProject({ status: projectSelected }));
+      await dispatch(getAllProject({ status: filterSelected }));
     };
     void fetchProject();
-  }, [projectSelected]);
+  }, [filterSelected]);
 
   return (
     <div className='project'>
@@ -62,7 +61,7 @@ const Project: FC = () => {
             <Select
               defaultValue={EProjectStatus.ACTIVE}
               onChange={onSelectChange}
-              value={projectSelected}
+              value={filterSelected}
               options={optionCanSelect}
               className='project-top__filterSearch'
             />
@@ -73,7 +72,7 @@ const Project: FC = () => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               onPressEnter={() => {
-                void onInputEnter(projectSelected, searchValue);
+                void onInputEnter(filterSelected, searchValue);
               }}
               placeholder='Search by client or project name'
               prefix={<SearchOutlined className='search-icon' />}

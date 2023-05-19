@@ -57,7 +57,6 @@ export const userLogin = createAsyncThunk('auth/login', async (user: IUserLoginD
   const { rememberClient } = user;
 
   const response: ILoginResponse = await axiosClient.post('/api/TokenAuth/Authenticate', user);
-  console.log('response:', response);
   const loginData: ILoginActionData = {
     accessToken: response.accessToken,
     isRemember: rememberClient

@@ -1,8 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import getProjectQuantity from '../thunnkFuntion/getQuantityProject';
-import { EProjectStatus, IAllProjectResponse } from '../../interfaces/interface';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { EProjectStatus, IAllProjectResponse, IParamsForAllProject, IProjectQuantity } from '../../interfaces/interface';
 import { RootState } from '../store';
-import getAllProject from '../thunnkFuntion/getAllProject';
+import axiosClient from '../../api/axiosClient';
 
 interface IProjectState {
   projectQuantity: {
@@ -39,23 +38,16 @@ const ProjectSlice = createSlice({
       .addCase(getProjectQuantity.fulfilled, (state, action) => {
         state.projectQuantity.isLoading = false;
         state.projectQuantity.isError = false;
-
-        const projectQuantity = action.payload.reduce(
-          (acc, currentValue): { active: number, deactive: number } => {
-            switch (currentValue.status) {
-              case EProjectStatus.ACTIVE: {
-                return { ...acc, active: currentValue.quantity };
-              }
-              case EProjectStatus.DEACTIVE: {
-                return { ...acc, deactive: currentValue.quantity };
-              }
-              default: {
-                return acc;
-              }
-            }
-          },
-          { active: 0, deactive: 0 }
-        );
+        const projectQuantity = {
+          active:
+            action.payload
+              .filter((curentValue) => curentValue.status === EProjectStatus.ACTIVE)
+              .reduce((acc, curentValue) => acc + curentValue.quantity, 0),
+          deactive:
+            action.payload
+              .filter((curentValue) => curentValue.status === EProjectStatus.DEACTIVE)
+              .reduce((acc, curentValue) => acc + curentValue.quantity, 0)
+        };
         state.projectQuantity.active = projectQuantity.active;
         state.projectQuantity.deactive = projectQuantity.deactive;
       })
@@ -78,5 +70,26 @@ const ProjectSlice = createSlice({
       });
   }
 });
+
+export const getAllProject = createAsyncThunk('project/getallProject', async (data: IParamsForAllProject) => {
+  const params =
+    data.status === EProjectStatus.ALL
+      ? { search: data.searchValue }
+      : { status: data.status, search: data.searchValue };
+
+  const response: IAllProjectResponse[] = await axiosClient.get(
+    '/api/services/app/Project/GetAll',
+    { params }
+  );
+  return response;
+});
+
+export const getProjectQuantity = createAsyncThunk('project/projectQuantitty', async () => {
+  const response: IProjectQuantity[] = await axiosClient.get(
+    '/api/services/app/Project/GetQuantityProject'
+  );
+  return response;
+});
+
 export const selectProjectStore = (state: RootState): IProjectState => state.project;
 export default ProjectSlice;

@@ -18,25 +18,11 @@ export interface ILoginActionData {
   accessToken: string
   isRemember: boolean
 }
-export enum EProjectStatusTitle {
-  ACTIVE = 'Active Projects',
-  DEACTIVE = 'Deactive Projects',
-  ALL = 'All Projects',
-}
 
-export enum EProjectActionName {
-  CREATE = 'CREATE',
-  EDIT = 'EDIT',
-  VIEW = 'VIEW',
-}
-
-export enum EProjectType {
-  TM = 'TM',
-  FF = 'FF',
-  NB = 'NB',
-  ODC = 'ODC',
-  P = 'P',
-  T = 'T'
+export enum EProjectStatus {
+  ACTIVE = 0,
+  DEACTIVE = 1,
+  ALL = 2,
 }
 export interface ISortProjectState {
   customerName: string
@@ -45,11 +31,6 @@ export interface ISortProjectState {
 export interface ILoginFormState {
   userNameOrEmailAddress: string
   password: string
-}
-export enum EProjectStatus {
-  ACTIVE = 0,
-  DEACTIVE = 1,
-  ALL = 2,
 }
 export interface IProjectQuantity {
   status: number

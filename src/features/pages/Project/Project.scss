@@ -4,16 +4,14 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 720px;
+  overflow-y: scroll;
   &-group,
   &-groupItem {
     padding: 20px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
       rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     border-radius: 10px;
-  }
-  &-groupItem {
-    height: 100vh;
-    overflow: scroll;
   }
   &-title {
     font-size: 30px;
@@ -22,6 +20,8 @@
     font-family: v.$font;
   }
   &-top {
+    z-index: 10;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,13 +30,51 @@
       display: flex;
       gap: 20px;
     }
-    &__filterSearch {
-      width: 400px;
-    }
+    // &__filterSearch {
+    //   width: 400px;
+    // }
   }
   &-loading {
     display: flex;
     justify-content: center;
     align-items: center;
   }
+  @media screen and (max-width: 1024px) {
+    &-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  }
+  @media screen and (max-width: 640px) {
+    &-top {
+      &__search {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+    }
+  }
+}
+.project::-webkit-scrollbar {
+  width: 10px;
+  background: linear-gradient(left, #fff, #e4e4e4);
+}
+.project::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+}
+.project::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #aaa;
+}
+
+.project::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+}
+
+.project::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(left, #22add4, #1e98ba);
 }
