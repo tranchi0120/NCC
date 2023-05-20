@@ -12,12 +12,14 @@ interface IInputGroupProps {
   inputType?: 'password' | 'text' | 'checkbox'
   errors: FormikErrors<any>
   touched: FormikTouched<any>
+  autoComplete: string
 }
 
 const InputGroup: FC<IInputGroupProps> = ({
   className,
   errors,
   touched,
+  autoComplete,
   label,
   inputName,
   inputType,
@@ -34,6 +36,7 @@ const InputGroup: FC<IInputGroupProps> = ({
         name={inputName}
         type={inputType}
         placeholder={placeholder}
+        autoComplete={autoComplete}
       />
       <ErrorMessage className='group-input__message-error' component='div' name={inputName} />
     </div>

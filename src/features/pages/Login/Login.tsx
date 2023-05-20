@@ -82,6 +82,7 @@ const Login: FC = () => {
                   touched={touched}
                   label='Username'
                   placeholder='Enter your usename...'
+                  autoComplete="off"
                 />
 
                 <InputGroup
@@ -91,6 +92,7 @@ const Login: FC = () => {
                   touched={touched}
                   label='Password'
                   placeholder='Enter your password...'
+                  autoComplete="off"
                 />
               </div>
 

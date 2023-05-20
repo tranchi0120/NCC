@@ -5,24 +5,12 @@ import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
 import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
 import { IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
 import { EProjectType } from '../../../../../enums/enums';
+import { format } from 'date-fns';
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
 
 const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
-  // const getProjectTime = useCallback(
-  //   (timeStart: string | null, timeEnd: string | null): string | null => {
-  //     if (timeStart === null || timeEnd === null) {
-  //       return null;
-  //     }
-  //     const startDate = new Date(timeStart);
-  //     const endDate = new Date(timeEnd);
-  //     const formattedStartDate = startDate.toLocaleDateString('en-GB');
-  //     const formattedEndDate = endDate.toLocaleDateString('en-GB');
-  //     return `${formattedStartDate} - ${formattedEndDate}`;
-  //   },
-  //   []
-  // );
   const getProjectType = (projectType: number): string | null => {
     switch (projectType) {
       case 0: {
@@ -95,8 +83,8 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
                   : <span></span>
                 }
                 <span className='projectItem-time'>
-                  {new Date(item.timeStart).toLocaleDateString('en-GB')}
-                  {(item.timeEnd != null) ? ' - ' + new Date(item.timeEnd).toLocaleDateString('en-GB') : ''}
+                  {format(new Date(item.timeStart), 'dd/MM/yyyy')}
+                  {(item.timeEnd != null) ? ' - ' + format(new Date(item.timeEnd), 'dd/MM/yyyy') : ''}
                 </span>
               </div>
               <div className="projectItem-action">
