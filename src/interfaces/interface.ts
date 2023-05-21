@@ -24,18 +24,6 @@ export enum EProjectStatus {
   DEACTIVE = 1,
   ALL = 2,
 }
-export interface ISortProjectState {
-  customerName: string
-  projects: IAllProjectResponse[]
-}
-export interface ILoginFormState {
-  userNameOrEmailAddress: string
-  password: string
-}
-export interface IProjectQuantity {
-  status: number
-  quantity: number
-}
 export interface IAllProjectResponse {
   customerName: string
   name: string
@@ -48,6 +36,19 @@ export interface IAllProjectResponse {
   timeEnd: string
   id: number
 }
+export interface ISortProjectState {
+  customerName: string
+  projects: IAllProjectResponse[]
+}
+export interface ILoginFormState {
+  userNameOrEmailAddress: string
+  password: string
+}
+export interface IProjectQuantity {
+  status: number
+  quantity: number
+}
+
 export interface IParamsForAllProject {
   status?: EProjectStatus
   searchValue?: string

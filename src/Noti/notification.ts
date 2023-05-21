@@ -11,8 +11,8 @@ export interface IOptions {
 
 const getOptions = (props: IOptions): Required<IOptions> => {
   return {
-    duration: 2,
-    placement: 'top',
+    duration: 5,
+    placement: 'bottom',
     key: '1',
     ...props
   };

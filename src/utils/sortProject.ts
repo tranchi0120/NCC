@@ -19,15 +19,13 @@ const sortProject = (projects: IAllProjectResponse[]): ISortProjectState[] => {
         if (project.customerName === customerName) {
           accumulator.push(project);
         }
-
         return accumulator;
       },
       []
     );
-
     return objectProject;
   });
-
+  console.log('objectProject:', newProjectsAfterSort);
   return newProjectsAfterSort;
 };
 

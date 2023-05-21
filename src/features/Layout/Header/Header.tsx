@@ -14,7 +14,6 @@ const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isShowSidebar } = useAppSelector(selectSidebarStore);
-  console.log(isShowSidebar);
 
   const handleLogout = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => {
     e.stopPropagation();

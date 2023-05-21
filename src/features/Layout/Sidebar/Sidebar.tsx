@@ -5,8 +5,14 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import './Sidebar.scss';
 import { Link } from 'react-router-dom';
 import ERoute from '../../../router/RouterLink';
+import { useAppDispatch } from '../../../redux/hooks';
+import { toggleSidebar } from '../../../redux/slice/SidabarSlice';
 
 const Sidebar = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const handleToggleSidebar = (): void => {
+    dispatch(toggleSidebar());
+  };
   return (
     <div className='sidebar'>
       <div className="sidebar-top">
@@ -19,11 +25,11 @@ const Sidebar = (): JSX.Element => {
         </div>
       </div>
       <div className="sidebar-bottom ">
-        <Link to={ERoute.HOME} className="sidebar-box">
+        <Link to={ERoute.HOME} className="sidebar-box" onClick={handleToggleSidebar}>
           <HomeIcon />
           <span>Home</span>
         </Link>
-        <Link to={ERoute.PROJECT} className="sidebar-box">
+        <Link to={ERoute.PROJECT} className="sidebar-box" onClick={handleToggleSidebar}>
           <AssessmentIcon />
           <span>
             Project
