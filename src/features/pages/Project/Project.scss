@@ -30,14 +30,17 @@
       display: flex;
       gap: 20px;
     }
-    // &__filterSearch {
-    //   width: 400px;
-    // }
   }
   &-loading {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  &-searchError {
+    text-align: center;
+    font-size: 28px;
+    font-family: v.$font;
+    font-weight: 400px;
   }
   @media screen and (max-width: 1024px) {
     &-top {

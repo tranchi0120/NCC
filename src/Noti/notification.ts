@@ -7,13 +7,17 @@ export interface IOptions {
   duration?: number
   placement?: NotificationPlacement
   key?: string
+  style?: Record<string, number>
 }
 
 const getOptions = (props: IOptions): Required<IOptions> => {
   return {
-    duration: 5,
-    placement: 'bottom',
+    duration: 2,
+    placement: 'top',
     key: '1',
+    style: {
+      zIndex: 1000
+    },
     ...props
   };
 };

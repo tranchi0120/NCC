@@ -6,7 +6,7 @@
   }
   &-header {
     position: relative;
-    z-index: 10000;
+    z-index: 1000;
     height: 80px;
     background: v.$color-bg-header;
     box-shadow: v.$box-shadow;
@@ -16,6 +16,7 @@
     box-shadow: v.$box-shadow;
   }
   &-children {
+    height: 780px;
     padding: 10px;
     width: 100%;
     margin: 20px;

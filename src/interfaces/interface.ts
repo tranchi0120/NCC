@@ -53,3 +53,17 @@ export interface IParamsForAllProject {
   status?: EProjectStatus
   searchValue?: string
 }
+
+export interface IFormValues {
+  customerId: number | undefined
+  name: string
+  code: string
+  dates: string
+  note?: string
+  isAllUser?: boolean
+}
+
+export interface IModalContent {
+  title: string
+  children: React.ReactNode
+}

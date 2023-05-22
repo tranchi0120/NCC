@@ -82,6 +82,7 @@ const Project: FC = () => {
       </div>
       <div className="project-groupItem">
         <div className="project-bottom">
+          {!allProject.isLoading && allProject.data.length === 0 ? (<div className='project-searchError'>Your search results are currently unavailable!</div>) : ''}
 
           {allProject.isLoading
             ? (<div className='project-loading'><CircularProgress /></div>)

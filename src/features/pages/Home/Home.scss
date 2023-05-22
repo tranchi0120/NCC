@@ -1,0 +1,8 @@
+@use "../../../assets/styles/_variabels" as v;
+.home {
+  &_title {
+    text-align: center;
+    font-weight: 400;
+    font-family: v.$font;
+  }
+}

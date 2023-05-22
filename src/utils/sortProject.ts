@@ -25,7 +25,6 @@ const sortProject = (projects: IAllProjectResponse[]): ISortProjectState[] => {
     );
     return objectProject;
   });
-  console.log('objectProject:', newProjectsAfterSort);
   return newProjectsAfterSort;
 };
 

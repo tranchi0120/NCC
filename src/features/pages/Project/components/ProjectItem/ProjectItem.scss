@@ -1,14 +1,12 @@
 @use "../../../../../assets/styles/_variabels" as v;
 
 %theme {
-  display: block;
   padding: 2px 10px;
   border-radius: 10px;
   border: none;
   font-size: 13px;
   color: v.$color-white;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 .projectItem {
@@ -47,6 +45,11 @@
   &-mentor {
     @extend %theme;
     background: v.$bgr-prj-member;
+    max-width: 480px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flow-root;
   }
   &-quantityStaff {
     @extend %theme;
@@ -71,6 +74,20 @@
     }
     &__deaactive {
       color: rgb(158, 156, 156);
+    }
+  }
+  @media screen and (max-width: 1023px) {
+    &-profile {
+      display: flex;
+      gap: 30px;
+    }
+    &-mentor {
+      max-width: 350px;
+    }
+  }
+  @media screen and (max-width: 640px) {
+    &-mentor {
+      max-width: 250px;
     }
   }
 }
