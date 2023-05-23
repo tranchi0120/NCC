@@ -1,10 +1,10 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import Ganeral from '../Ganeral/Ganeral';
 import Team from '../Team/Team';
 import Tasks from '../Tasks/Tasks';
 import Notification from '../Notification/Notification';
+import Ganeral from '../Ganeral/Ganeral';
 
 const FormTabs: React.FC = () => {
   const onChange = (key: string): void => {

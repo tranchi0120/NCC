@@ -1,0 +1,53 @@
+/*---------FONT ------------*/
+/*--------- COLOR ------------*/
+/*--------- box-shadow ------------*/
+.layout-commont {
+  margin: 15px;
+  border-radius: 15px;
+}
+.layout-header {
+  position: relative;
+  z-index: 1000;
+  height: 80px;
+  background: rgba(255, 0, 0, 0.5411764706);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.layout-sidebar {
+  width: 350px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.layout-children {
+  height: 780px;
+  padding: 10px;
+  width: 100%;
+  margin: 20px;
+  box-sizing: border-box;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.layout-bottom {
+  display: flex;
+  position: relative;
+}
+@media screen and (max-width: 1023px) {
+  .layout-sidebar {
+    top: 105px;
+    bottom: 0;
+    position: fixed;
+    width: 350px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    transform: translateX(-500%);
+    transition: all 0.7s linear;
+  }
+  .layout .sidebarOpen {
+    transform: translateX(0);
+    z-index: 111111111;
+    background: #ffffff;
+  }
+  .layout .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    transition: all 0.5s;
+  }
+}/*# sourceMappingURL=layout.css.map */

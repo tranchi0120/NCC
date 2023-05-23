@@ -54,6 +54,11 @@ export interface IParamsForAllProject {
   searchValue?: string
 }
 
+export interface ISelectOptionState {
+  value: number
+  label: string
+}
+
 export interface IFormValues {
   customerId: number | undefined
   name: string
@@ -66,4 +71,50 @@ export interface IFormValues {
 export interface IModalContent {
   title: string
   children: React.ReactNode
+}
+
+export interface ICustomerResponse {
+  name: string
+  id: number
+}
+
+export enum EUsetNotPaggingType {
+  STAFF = 0,
+  INTERNSHIP = 1,
+  COLLABORATOR = 2,
+}
+
+export enum EUserBranch {
+  HN = 0,
+  KT = 1,
+  SG = 2,
+  DN = 3,
+}
+
+export interface IUserNotPagging {
+  name: string
+  emailAddress: string
+  isActive: boolean
+  type: EUsetNotPaggingType
+  jobTitle: string
+  level: number
+  userCode: string
+  avatarPath: string
+  avatarFullPath: string
+  branch: EUserBranch
+  branchColor: string
+  branchDisplayName: string
+  branchId: number
+  id: number
+}
+
+export enum ETaskType {
+  OTHER = 0,
+  COMMON = 1,
+}
+export interface ITaskResponse {
+  name: string
+  type: ETaskType
+  isDeleted: boolean
+  id: number
 }

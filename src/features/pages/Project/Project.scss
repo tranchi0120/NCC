@@ -58,6 +58,17 @@
       }
     }
   }
+  &-wrapperSearch {
+    width: 250px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ant-select-selector {
+    height: 100% !important;
+    align-items: center;
+  }
 }
 .project::-webkit-scrollbar {
   width: 10px;

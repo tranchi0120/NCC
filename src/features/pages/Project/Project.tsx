@@ -73,11 +73,12 @@ const Project: FC = () => {
               onChange={onSelectChange}
               value={filterSelected}
               options={optionCanSelect}
-              className='project-top__filterSearch'
+              className='project-wrapperSearch project-top__filterSearch '
+              disabled={allProject.isLoading}
             />
             <Search
               ref={inputSearchRef}
-              className='search-area'
+              className='search-area project-wrapperSearch'
               size='large'
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -86,6 +87,7 @@ const Project: FC = () => {
               }}
               placeholder='Search by client or project name'
               prefix={<SearchOutlined className='search-icon' />}
+              disabled={allProject.isLoading}
             />
           </div>
         </div>
