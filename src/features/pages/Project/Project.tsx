@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useCallback, useContext } from 'react';
 import type { FC } from 'react';
 import './Project.scss';
 import { Button, Select, Input as Search, InputRef } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getAllProject, getProjectQuantity, selectProjectStore } from '../../../redux/slice/ProjectSlice';
-import { EProjectStatus } from '../../../interfaces/interface';
+import { EProjectStatus, IModalContent } from '../../../interfaces/interface';
 import { CircularProgress } from '@material-ui/core';
 import ProjectItem from './components/ProjectItem/ProjectItem';
 import sortProject from '../../../utils/sortProject';
 import { SearchOutlined } from '@ant-design/icons';
 import { EProjectStatusTitle } from '../../../enums/enums';
+import { AppContext } from '../../../context/AppProvider';
+import FormTabs from './components/FormTabs/FormTabs';
 
 const Project: FC = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +19,7 @@ const Project: FC = () => {
   const [filterSelected, setFilterSelected] = useState(EProjectStatus.ACTIVE);
   const [searchValue, setSearchValue] = useState('');
   const inputSearchRef = useRef<InputRef | null>(null);
+  const { setIsOpen, setModalContent } = useContext(AppContext);
 
   const optionCanSelect = useMemo(() => {
     return [
@@ -43,6 +46,11 @@ const Project: FC = () => {
     setFilterSelected(value);
   };
 
+  const handleOpenModal = useCallback((modalContent: IModalContent) => {
+    setIsOpen(true);
+    setModalContent(modalContent);
+  }, []);
+
   useEffect(() => {
     const fetchProject = async (): Promise<void> => {
       await dispatch(getProjectQuantity());
@@ -56,7 +64,9 @@ const Project: FC = () => {
       <div className="project-group">
         <h2 className='project-title'>Manage ProJects</h2>
         <div className="project-top">
-          <Button type="primary"> + New ProJect</Button>
+          <Button
+            type='primary'
+            onClick={() => handleOpenModal({ title: 'Create Project', children: <FormTabs /> })}> + New ProJect</Button>
           <div className='project-top__search'>
             <Select
               defaultValue={EProjectStatus.ACTIVE}

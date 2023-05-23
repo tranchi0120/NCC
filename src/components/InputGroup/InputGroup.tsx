@@ -10,8 +10,8 @@ interface IInputGroupProps {
   inputName: string
   placeholder?: string
   inputType?: 'password' | 'text' | 'checkbox'
-  errors: FormikErrors<any>
-  touched: FormikTouched<any>
+  errors?: FormikErrors<any>
+  touched?: FormikTouched<any>
   autoComplete: string
 }
 
