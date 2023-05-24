@@ -12,7 +12,6 @@ interface props {
 }
 
 export const PrivateRoute = ({ children }: props): any => {
-  // const navigate = useNavigate();
   const userInfo = getAccessToken();
 
   if (userInfo.length === 0) {
@@ -39,7 +38,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: ERoute.HOME,
+        index: true,
         element: <Home />
       },
       {

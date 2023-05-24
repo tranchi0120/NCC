@@ -49,8 +49,6 @@ const Ganeral: FC = () => {
     EProjectType.TR
   ];
 
-  console.log(projectType);
-
   const selectOption: ISelectOptionState[] = useMemo(() => {
     const renderClientOption = clientOptions.map((client) => ({
       value: client.id,
@@ -100,6 +98,7 @@ const Ganeral: FC = () => {
     const fetchCustomer = async (): Promise<void> => {
       const result = await customer.getAllClient();
       setClientOptions(result);
+      console.log(result);
     };
 
     void fetchCustomer();

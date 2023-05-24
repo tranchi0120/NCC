@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import type { FC } from 'react';
 import './ProjectItem.scss';
-import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
-import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
+import { Button, Dropdown, MenuProps, Space, Tag, Tooltip } from 'antd';
+import { CheckCircleOutlined, DeleteOutlined, DownOutlined, EditOutlined, ExclamationCircleOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
 import { IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
 import { EProjectType } from '../../../../../enums/enums';
 import { format } from 'date-fns';
@@ -88,6 +88,15 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
                 </span>
               </div>
               <div className="projectItem-action">
+                {item.status === 0
+                  ? (
+                    <Tag icon={<CheckCircleOutlined />} color='success'>
+                      Active
+                    </Tag>)
+                  : (
+                    <Tag icon={<ExclamationCircleOutlined />} color='warning'>
+                      Deactive
+                    </Tag>)}
                 <Dropdown placement='bottomRight'
                   menu={menuProps}
                   trigger={['click']}

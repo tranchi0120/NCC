@@ -12,12 +12,11 @@ export interface IAppModal {
   formRef: React.RefObject<FormikProps<IFormValues>>
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-export const AppContext = createContext<IAppModal>({} as IAppModal);
-
 interface IAppProviderProps {
   children: React.ReactNode
 }
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+export const AppContext = createContext<IAppModal>({} as IAppModal);
 
 const AppProvider: FC<IAppProviderProps> = ({ children }) => {
   const { isOpen, setIsOpen, modalContent, setModalContent } = useModal();

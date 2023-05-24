@@ -27,30 +27,11 @@ const Team = (): JSX.Element => {
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
                 options={[
-                  {
-                    value: '1',
-                    label: 'All'
-                  },
-                  {
-                    value: '2',
-                    label: 'Closed'
-                  },
-                  {
-                    value: '3',
-                    label: 'Communicated'
-                  },
-                  {
-                    value: '4',
-                    label: 'Identified'
-                  },
-                  {
-                    value: '5',
-                    label: 'Resolved'
-                  },
-                  {
-                    value: '6',
-                    label: 'Cancelled'
-                  }
+                  { value: 'all', label: 'All' },
+                  { value: 0, label: 'Hà Nội' },
+                  { value: 1, label: 'Sài Gòn' },
+                  { value: 2, label: 'Kon Tum' },
+                  { value: 3, label: 'Đà Nẵng' }
                 ]}
               />
             </div>
@@ -66,30 +47,10 @@ const Team = (): JSX.Element => {
                   (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
                 options={[
-                  {
-                    value: '1',
-                    label: 'All'
-                  },
-                  {
-                    value: '2',
-                    label: 'Closed'
-                  },
-                  {
-                    value: '3',
-                    label: 'Communicated'
-                  },
-                  {
-                    value: '4',
-                    label: 'Identified'
-                  },
-                  {
-                    value: '5',
-                    label: 'Resolved'
-                  },
-                  {
-                    value: '6',
-                    label: 'Cancelled'
-                  }
+                  { value: 'all', label: 'All' },
+                  { value: 0, label: 'Staff' },
+                  { value: 1, label: 'Internship' },
+                  { value: 2, label: 'Collaborator' }
                 ]}
               />
             </div>

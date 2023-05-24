@@ -6,7 +6,7 @@ const customer = {
     const response: ICustomerResponse[] = await axiosClient.get(
       '/api/services/app/Customer/GetAll'
     );
-
+    console.log({ response });
     return response;
   }
 };
