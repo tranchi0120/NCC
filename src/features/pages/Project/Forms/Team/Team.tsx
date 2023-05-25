@@ -10,12 +10,15 @@ import { IUserNotPagging } from '../../../../../interfaces/interface';
 
 const { Panel } = Collapse;
 const { Search } = Input;
+
 const Team = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const [userNotPaggings, setUserNotPaggings] = useState<IUserNotPagging[]>([]);
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const [isCheck, seIsCheck] = useState<boolean>(false);
+
   const { userNotPaggingList, isLoading } = useAppSelector(selectMemberStore);
   const { branchItem } = useAppSelector(selectBranchStore);
-  const [isCheck, seIsCheck] = useState<boolean>(false);
-  const [righList, setRightList] = useState<IUserNotPagging[]>([]);
-  const dispatch = useAppDispatch();
 
   const onSearch = (value: string): void => console.log(value);
   const onChange = (event: CheckboxChangeEvent): void => {
@@ -39,7 +42,7 @@ const Team = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    setRightList(userNotPaggingList);
+    setUserNotPaggings(userNotPaggingList);
   }, [userNotPaggingList]);
 
   return (
@@ -78,11 +81,6 @@ const Team = (): JSX.Element => {
                   style={{ width: 200 }}
                   placeholder="Search to Select"
                   optionFilterProp="children"
-                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                  }
-                  // onChange={(option) => setCurrentBranch(option.value)}
                   options={branchOption}
                 />
               </div>
@@ -90,15 +88,11 @@ const Team = (): JSX.Element => {
                 <span className="team-name">Type</span>
                 <Select
                   className='team-select'
-                  defaultValue='All'
+                  defaultValue={{ value: '-1', label: 'All' }}
                   showSearch
                   style={{ width: 200 }}
                   placeholder="Search to Select"
                   optionFilterProp="children"
-                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                  }
                   options={[
                     { value: 'all', label: 'All' },
                     { value: 0, label: 'Staff' },
@@ -108,12 +102,17 @@ const Team = (): JSX.Element => {
                 />
               </div>
               <div>
-                <Search placeholder="input search text" onSearch={onSearch} style={{ width: 150 }} />
+                <Search
+                  placeholder="input search text"
+                  onSearch={onSearch}
+                  style={{ width: 150 }}
+                  value={searchInputValue}
+                  onChange={(e) => setSearchInputValue(e.target.value)} />
               </div>
             </div>
             <div className='team-memberItem'>
               {!isLoading
-                ? (righList.length > 0 && righList.map((item) => (
+                ? (userNotPaggings.length > 0 && userNotPaggings.map((item) => (
                   <MemberItem key={item.id} isChoosed={false} userNotPagging={item} />)))
                 : (<div>loading....</div>)}
             </div>

@@ -41,6 +41,11 @@
     flex-wrap: nowrap !important;
     flex-direction: column;
     width: 100%;
+    &__item {
+      display: flex;
+      flex-wrap: nowrap !important;
+      flex-direction: column;
+    }
   }
   &-listMember {
     display: flex;

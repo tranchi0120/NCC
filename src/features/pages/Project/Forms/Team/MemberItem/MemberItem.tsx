@@ -2,8 +2,8 @@ import { CloseOutlined, LeftOutlined } from '@ant-design/icons';
 import React, { FC, useMemo } from 'react';
 import './MemberItem.scss';
 import { Select } from 'antd';
-import { EUsetNotPaggingType, IUserNotPagging } from '../../../../../../interfaces/interface';
-import { EProjectUserType } from '../../../../../../enums/enums';
+import { IUserNotPagging } from '../../../../../../interfaces/interface';
+import { EProjectUserType, EUsetNotPaggingType } from '../../../../../../enums/enums';
 
 export interface IMemberProps {
   isChoosed: boolean

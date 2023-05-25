@@ -38,7 +38,8 @@ const BranchSlice = createSlice({
 
 export const GetAllBranchFilter = createAsyncThunk(
   'branchFilter/GetAllBranchFilter', async () => {
-    const res: IBranch[] = await axiosClient.get('/api/services/app/Branch/GetAllBranchFilter?isAll=true');
+    const res: IBranch[] = await axiosClient.get(
+      '/api/services/app/Branch/GetAllBranchFilter?isAll=true');
     return res;
   });
 

@@ -18,7 +18,12 @@ const initialState: IUserNotPaggingState = {
 const MemberSlice = createSlice({
   name: 'member',
   initialState,
-  reducers: {},
+  reducers: {
+    filterMembers: (state, action) => {
+      const filterList = state.userNotPaggingList.filter((member) => member.type === action.payload.type);
+      state.userNotPaggingList = filterList;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserNothing.pending, (state) => {
@@ -40,8 +45,11 @@ export const getUserNothing = createAsyncThunk('member/GetUserNotPagging', async
   const res: IUserNotPagging[] = await axiosClient.get(
     '/api/services/app/User/GetUserNotPagging'
   );
+  console.log(res);
   return res;
 });
+
+export const { filterMembers } = MemberSlice.actions;
 
 export const selectMemberStore = (state: RootState): IUserNotPaggingState => state.member;
 export default MemberSlice;

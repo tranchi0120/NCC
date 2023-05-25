@@ -36,10 +36,6 @@ export interface IAllProjectResponse {
   timeEnd: string
   id: number
 }
-export interface ISortProjectState {
-  customerName: string
-  projects: IAllProjectResponse[]
-}
 export interface ILoginFormState {
   userNameOrEmailAddress: string
   password: string
@@ -48,12 +44,15 @@ export interface IProjectQuantity {
   status: number
   quantity: number
 }
+export interface ISortProjectState {
+  customerName: string
+  projects: IAllProjectResponse[]
+}
 
 export interface IParamsForAllProject {
   status?: EProjectStatus
   searchValue?: string
 }
-
 export interface ISelectOptionState {
   value: number
   label: string
@@ -77,31 +76,17 @@ export interface ICustomerResponse {
   name: string
   id: number
 }
-
-export enum EUserBranch {
-  HN = 0,
-  KT = 1,
-  SG = 2,
-  DN = 3,
-}
-
-export enum EUsetNotPaggingType {
-  STAFF = 0,
-  INTERNSHIP = 1,
-  COLLABORATOR = 2,
-  Null = 3
-}
 export interface IUserNotPagging {
   name: string
   emailAddress: string
   isActive: boolean
-  type: EUsetNotPaggingType
+  type: number
   jobTitle: string
   level: number
   userCode: string
   avatarPath: string
   avatarFullPath: string
-  branch: EUserBranch
+  branch: number
   branchColor: string
   branchDisplayName: string
   branchId: number

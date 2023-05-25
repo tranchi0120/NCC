@@ -26,15 +26,15 @@ export enum EProjectUserType {
   DEACTIVE,
 }
 
-export enum EUsetNotPaggingType {
-  STAFF = 0,
-  INTERNSHIP = 1,
-  COLLABORATOR = 2,
-}
-
 export enum EUserBranch {
   HN = 0,
   KT = 1,
   SG = 2,
   DN = 3,
+}
+export enum EUsetNotPaggingType {
+  STAFF = 0,
+  INTERNSHIP = 1,
+  COLLABORATOR = 2,
+  Null = 3
 }
