@@ -78,12 +78,6 @@ export interface ICustomerResponse {
   id: number
 }
 
-export enum EUsetNotPaggingType {
-  STAFF = 0,
-  INTERNSHIP = 1,
-  COLLABORATOR = 2,
-}
-
 export enum EUserBranch {
   HN = 0,
   KT = 1,
@@ -91,6 +85,12 @@ export enum EUserBranch {
   DN = 3,
 }
 
+export enum EUsetNotPaggingType {
+  STAFF = 0,
+  INTERNSHIP = 1,
+  COLLABORATOR = 2,
+  Null = 3
+}
 export interface IUserNotPagging {
   name: string
   emailAddress: string
@@ -116,5 +116,11 @@ export interface ITaskResponse {
   name: string
   type: ETaskType
   isDeleted: boolean
+  id: number
+}
+
+export interface IBranch {
+  name: string
+  displayName: string
   id: number
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import clsx from 'clsx';
 import { Divider as ADivider, Modal as AModal, ModalProps } from 'antd';
 
 import Button from '../Button/Button';
@@ -15,12 +14,11 @@ export interface IModalContent {
 }
 
 interface IModalProps extends ModalProps {
-  className?: string
   modalContent: IModalContent
   isOpen: boolean
 }
 
-const Modal: FC<IModalProps> = ({ className, modalContent, isOpen, ...rest }) => {
+const Modal: FC<IModalProps> = ({ modalContent, isOpen, ...rest }) => {
   const { setIsOpen, formRef } = useContext(AppContext);
 
   const handleSubmit = (): void => {
@@ -34,7 +32,7 @@ const Modal: FC<IModalProps> = ({ className, modalContent, isOpen, ...rest }) =>
 
   return (
     <AModal
-      className={clsx('modal', className)}
+      className='modal'
       title={modalContent.title}
       centered
       open={isOpen}

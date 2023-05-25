@@ -11,7 +11,7 @@ import sortProject from '../../../utils/sortProject';
 import { SearchOutlined } from '@ant-design/icons';
 import { EProjectStatusTitle } from '../../../enums/enums';
 import { AppContext } from '../../../context/AppProvider';
-import FormTabs from './components/FormTabs/FormTabs';
+import FormTabs from './Forms/FormTabs/FormTabs';
 
 const Project: FC = () => {
   const dispatch = useAppDispatch();

@@ -1,0 +1,53 @@
+.team {
+  display: flex;
+  justify-content: space-between;
+  &-left {
+    width: 60%;
+    &__filter {
+      display: flex;
+      gap: 30px;
+    }
+    &__search {
+      width: 300px;
+    }
+  }
+  &-select {
+    width: 100px !important;
+  }
+  &-filter {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    padding: 0;
+    &__Item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+  &-memberItem {
+    margin-top: 20px;
+    height: 500px;
+    margin-top: 20px;
+    visibility: visible;
+    overflow-y: scroll;
+  }
+  &-left,
+  &-right {
+    flex: 1;
+  }
+  &-right {
+    display: flex;
+    flex-wrap: nowrap !important;
+    flex-direction: column;
+    width: 100%;
+  }
+  &-listMember {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// .ant-space-item {
+//   width: 100% !important;
+// }
