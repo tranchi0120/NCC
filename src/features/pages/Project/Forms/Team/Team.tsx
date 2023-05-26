@@ -16,6 +16,7 @@ const Team = (): JSX.Element => {
   const [userNotPaggings, setUserNotPaggings] = useState<IUserNotPagging[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [isDeactive, seIsDeactive] = useState<boolean>(false);
+  const [branchFilter, setBranchFilter] = useState(0);
 
   const { userNotPaggingList, isLoading } = useAppSelector(selectMemberStore);
   const { branchItem } = useAppSelector(selectBranchStore);
@@ -44,6 +45,9 @@ const Team = (): JSX.Element => {
   useEffect(() => {
     setUserNotPaggings(userNotPaggingList);
   }, [userNotPaggingList]);
+
+  const userNotPaggingFilter = userNotPaggings.filter((item) => item.branchId === branchFilter);
+  console.log(userNotPaggingFilter);
 
   return (
     <div className='team'>
@@ -77,11 +81,13 @@ const Team = (): JSX.Element => {
                 <Select
                   className='team-select'
                   showSearch
-                  defaultValue={{ value: 0, label: 'All' }}
+                  value={branchFilter}
+                  // defaultValue={{ value: 0, label: 'All' }}
                   style={{ width: 200 }}
                   placeholder="Search to Select"
                   optionFilterProp="children"
                   options={branchOption}
+                  onChange={(option) => setBranchFilter(option)}
                 />
               </div>
               <div className='team-filter__Item'>
@@ -111,7 +117,7 @@ const Team = (): JSX.Element => {
             </div>
             <div className='team-memberItem'>
               {!isLoading
-                ? (userNotPaggings.length > 0 && userNotPaggings.map((item) => (
+                ? (userNotPaggingFilter.length > 0 && userNotPaggingFilter.map((item) => (
                   <MemberItem key={item.id} isChoosed={false} userNotPagging={item} />)))
                 : (<div>loading....</div>)}
             </div>
