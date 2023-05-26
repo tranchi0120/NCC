@@ -1,23 +1,26 @@
 import { CloseOutlined, LeftOutlined } from '@ant-design/icons';
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useCallback, useState } from 'react';
 import './MemberItem.scss';
 import { Select } from 'antd';
 import { IUserNotPagging } from '../../../../../../interfaces/interface';
 import { EProjectUserType, EUsetNotPaggingType } from '../../../../../../enums/enums';
-
 export interface IMemberProps {
   isChoosed: boolean
   showDeactive?: boolean
   userNotPagging: IUserNotPagging
   positionType?: EProjectUserType
+  setMemberSelected: React.Dispatch<React.SetStateAction<IUserNotPagging[]>>
 }
 
 const MemberItem: FC<IMemberProps> = ({
   isChoosed,
   showDeactive,
   userNotPagging,
-  positionType
+  positionType,
+  setMemberSelected
 }) => {
+  const [userJobTitle, setUsetJobTitle] = useState(0);
+
   const userLevel = useMemo(() => {
     switch (userNotPagging.level) {
       case 0:
@@ -69,9 +72,23 @@ const MemberItem: FC<IMemberProps> = ({
     }
   }, []);
 
+  const handleSelectMember = useCallback((memberId: number) => {
+    if (isChoosed) {
+      setMemberSelected((prev) => {
+        return prev.filter((member) => member.id !== memberId);
+      });
+    } else {
+      setMemberSelected((prev) => [...prev, userNotPagging]);
+    }
+  }, []);
+
+  if (showDeactive === false && userJobTitle === 3) {
+    return null;
+  }
+
   return (
     <div className='member'>
-      <div className='member-icon'>
+      <div className='member-icon' onClick={() => handleSelectMember(userNotPagging.id)}>
         {isChoosed ? <CloseOutlined /> : <LeftOutlined />}
       </div>
       <div className="member-info">
@@ -93,12 +110,13 @@ const MemberItem: FC<IMemberProps> = ({
       {isChoosed && (
         <Select
           className='input-select-type'
-          defaultValue={'Member'}
+          value={userJobTitle}
+          onChange={(value) => setUsetJobTitle(value)}
           options={[
-            { value: '0', label: 'Member' },
-            { value: '1', label: 'Project Manager' },
-            { value: '2', label: 'Shadow' },
-            { value: '3', label: 'Deactive' }
+            { value: 0, label: 'Member' },
+            { value: 1, label: 'Project Manager' },
+            { value: 2, label: 'Shadow' },
+            { value: 3, label: 'Deactive' }
           ]}
         />
       )}

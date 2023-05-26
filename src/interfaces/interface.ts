@@ -103,9 +103,14 @@ export interface ITaskResponse {
   isDeleted: boolean
   id: number
 }
-
 export interface IBranch {
   name: string
   displayName: string
   id: number
+}
+
+export enum EUsetNotPaggingType {
+  STAFF = 0,
+  INTERNSHIP = 1,
+  COLLABORATOR = 2,
 }

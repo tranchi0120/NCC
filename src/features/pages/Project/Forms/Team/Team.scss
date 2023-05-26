@@ -52,6 +52,9 @@
     display: flex;
     flex-direction: column;
   }
+  &-searchMember {
+    width: 300px;
+  }
 }
 
 .ant-space-item {
