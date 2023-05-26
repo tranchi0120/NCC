@@ -45,7 +45,6 @@ export const getUserNothing = createAsyncThunk('member/GetUserNotPagging', async
   const res: IUserNotPagging[] = await axiosClient.get(
     '/api/services/app/User/GetUserNotPagging'
   );
-  console.log(res);
   return res;
 });
 

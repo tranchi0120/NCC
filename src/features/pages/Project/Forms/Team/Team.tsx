@@ -15,20 +15,20 @@ const Team = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [userNotPaggings, setUserNotPaggings] = useState<IUserNotPagging[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [isCheck, seIsCheck] = useState<boolean>(false);
+  const [isDeactive, seIsDeactive] = useState<boolean>(false);
 
   const { userNotPaggingList, isLoading } = useAppSelector(selectMemberStore);
   const { branchItem } = useAppSelector(selectBranchStore);
-
-  const onSearch = (value: string): void => console.log(value);
-  const onChange = (event: CheckboxChangeEvent): void => {
-    seIsCheck(event.target.checked);
-  };
 
   const branchOption = branchItem.map((branch) => ({
     value: branch.id,
     label: branch.displayName
   }));
+
+  const onSearch = (value: string): void => console.log(value);
+  const onChange = (event: CheckboxChangeEvent): void => {
+    seIsDeactive(event.target.checked);
+  };
 
   useEffect(() => {
     const fetchUsetNotPagging = async (): Promise<void> => {
@@ -61,7 +61,7 @@ const Team = (): JSX.Element => {
                     key={member.id}
                     userNotPagging={member}
                     isChoosed={true}
-                    showDeactive={isCheck}
+                    showDeactive={isDeactive}
                   />
                 ))}
             </div>
@@ -76,8 +76,8 @@ const Team = (): JSX.Element => {
                 <span className="team-name">Branch</span>
                 <Select
                   className='team-select'
-                  defaultValue={{ value: 0, label: 'All' }}
                   showSearch
+                  defaultValue={{ value: 0, label: 'All' }}
                   style={{ width: 200 }}
                   placeholder="Search to Select"
                   optionFilterProp="children"
@@ -88,7 +88,6 @@ const Team = (): JSX.Element => {
                 <span className="team-name">Type</span>
                 <Select
                   className='team-select'
-                  defaultValue={{ value: '-1', label: 'All' }}
                   showSearch
                   style={{ width: 200 }}
                   placeholder="Search to Select"

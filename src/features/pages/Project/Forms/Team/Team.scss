@@ -1,6 +1,7 @@
 .team {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   &-left {
     width: 60%;
     &__filter {

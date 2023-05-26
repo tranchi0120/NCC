@@ -1,9 +1,10 @@
 import { IUserNotPagging } from '../interfaces/interface';
 
 export const handleSortByBranch = (branch: number, filterList: IUserNotPagging[]): IUserNotPagging[] => {
-  if (branch !== 0) {
+  if (branch !== 0 || branch !== undefined) {
+    console.log('branch:', branch);
     const memberBranchList = filterList.filter((member) => {
-      console.log(member);
+      // console.log(member);
       return member.branchId === branch;
     });
     return memberBranchList;

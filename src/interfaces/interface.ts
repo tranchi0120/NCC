@@ -78,19 +78,19 @@ export interface ICustomerResponse {
 }
 export interface IUserNotPagging {
   name: string
+  id: number
   emailAddress: string
   isActive: boolean
   type: number
-  jobTitle: string
+  jobTitle?: string
   level: number
-  userCode: string
-  avatarPath: string
   avatarFullPath: string
+  avatarPath: string
   branch: number
-  branchColor: string
-  branchDisplayName: string
+  branchColor?: string
+  branchDisplayName?: string
   branchId: number
-  id: number
+  userCode?: string
 }
 
 export enum ETaskType {
