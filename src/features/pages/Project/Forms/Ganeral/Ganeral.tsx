@@ -33,7 +33,7 @@ const dateFormat = 'DD/MM/YYYY';
 const Ganeral: FC = () => {
   const { formRef } = useContext(AppContext);
   const [clientOptions, setClientOptions] = useState<ICustomerResponse[]>([]);
-  const [projectTypeId, setProjectTypeId] = useState<EProjectType>(EProjectType.ODC);
+  const [projectTypeId, setProjectTypeId] = useState<EProjectType>(EProjectType.FF);
 
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

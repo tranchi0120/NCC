@@ -5,7 +5,9 @@ import MemberItem from './MemberItem/MemberItem';
 import { useAppDispatch, useAppSelector } from '../../../../../redux/hooks';
 import { getUserNothing, selectMemberStore } from '../../../../../redux/slice/MemberSlice';
 import { GetAllBranchFilter, selectBranchStore } from '../../../../../redux/slice/BranchSlice';
-import { EUsetNotPaggingType, IUserNotPagging } from '../../../../../interfaces/interface';
+import { IUserNotPagging } from '../../../../../interfaces/interface';
+import { CircularProgress } from '@material-ui/core';
+import { EUsetNotPaggingType } from '../../../../../enums/enums';
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -29,6 +31,7 @@ const Team = (): JSX.Element => {
     value: branch.id,
     label: branch.displayName
   }));
+  console.log({ branchItem });
 
   const onSearch = (value: string): void => console.log(value);
 
@@ -164,7 +167,7 @@ const Team = (): JSX.Element => {
               {!isLoading
                 ? (userNotPaggingFilter.length > 0 && userNotPaggingFilter.map((item) => (
                   <MemberItem key={item.id} isChoosed={false} userNotPagging={item} setMemberSelected={setMemberSelected} />)))
-                : (<div>loading....</div>)}
+                : (<div className='team-loading'><CircularProgress /></div>)}
             </div>
           </Space>
         </Panel>

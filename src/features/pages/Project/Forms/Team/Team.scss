@@ -7,6 +7,7 @@
     &__filter {
       display: flex;
       gap: 30px;
+      align-items: center;
     }
     &__search {
       width: 300px;
@@ -53,7 +54,13 @@
     flex-direction: column;
   }
   &-searchMember {
-    width: 300px;
+    width: 300px !important;
+  }
+  &-loading {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

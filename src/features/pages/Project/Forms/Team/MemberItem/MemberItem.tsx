@@ -1,9 +1,9 @@
 import { CloseOutlined, LeftOutlined } from '@ant-design/icons';
-import React, { FC, useMemo, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import './MemberItem.scss';
 import { Select } from 'antd';
 import { IUserNotPagging } from '../../../../../../interfaces/interface';
-import { EProjectUserType, EUsetNotPaggingType } from '../../../../../../enums/enums';
+import { EProjectUserType, memberPosition, memberType } from '../../../../../../enums/enums';
 export interface IMemberProps {
   isChoosed: boolean
   showDeactive?: boolean
@@ -20,57 +20,6 @@ const MemberItem: FC<IMemberProps> = ({
   setMemberSelected
 }) => {
   const [userJobTitle, setUsetJobTitle] = useState(0);
-
-  const userLevel = useMemo(() => {
-    switch (userNotPagging.level) {
-      case 0:
-      case 1:
-      case 2:
-      case 3: {
-        return 'Intern';
-      }
-      case 4:
-      case 5:
-      case 6: {
-        return 'Fresher';
-      }
-      case 7:
-      case 8:
-      case 9: {
-        return 'Junior';
-      }
-      case 10:
-      case 11:
-      case 12: {
-        return 'Middle';
-      }
-      case 13:
-      case 14:
-      case 15: {
-        return 'Senior';
-      }
-      case null: {
-        return '';
-      }
-    }
-  }, []);
-
-  const userType = useMemo(() => {
-    switch (userNotPagging.type) {
-      case EUsetNotPaggingType.STAFF: {
-        return 'staff';
-      }
-      case EUsetNotPaggingType.COLLABORATOR: {
-        return 'Collaborator';
-      }
-      case EUsetNotPaggingType.INTERNSHIP: {
-        return 'Internship';
-      }
-      case EUsetNotPaggingType.Null: {
-        return '';
-      }
-    }
-  }, []);
 
   const handleSelectMember = useCallback((memberId: number) => {
     if (isChoosed) {
@@ -96,13 +45,9 @@ const MemberItem: FC<IMemberProps> = ({
           <h3 className="member-info__name">
             {userNotPagging.name}
           </h3>
-          {userType === undefined
-            ? <span></span>
-            : <span className='member-info__type'>{userType}</span>}
+          {userNotPagging.type !== null && <span className='member-info__type'>{memberType[userNotPagging.type]}</span>}
 
-          {userLevel === ''
-            ? <span></span>
-            : <span className='member-info__position'>{userLevel}</span>}
+          {userNotPagging.level !== null && <span className='member-info__position'>{memberPosition[userNotPagging.level]}</span>}
 
         </div>
         <p className="member-info__email">{userNotPagging.emailAddress}</p>

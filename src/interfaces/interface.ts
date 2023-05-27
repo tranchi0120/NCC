@@ -92,14 +92,9 @@ export interface IUserNotPagging {
   branchId: number
   userCode?: string
 }
-
-export enum ETaskType {
-  OTHER = 0,
-  COMMON = 1,
-}
 export interface ITaskResponse {
   name: string
-  type: ETaskType
+  type: number
   isDeleted: boolean
   id: number
 }
@@ -107,10 +102,4 @@ export interface IBranch {
   name: string
   displayName: string
   id: number
-}
-
-export enum EUsetNotPaggingType {
-  STAFF = 0,
-  INTERNSHIP = 1,
-  COLLABORATOR = 2,
 }
