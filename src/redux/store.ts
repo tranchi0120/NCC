@@ -15,6 +15,7 @@ import ProjectSlice from './slice/ProjectSlice';
 import SidebarSlice from './slice/SidabarSlice';
 import MemberSlice from './slice/MemberSlice';
 import BranchSlice from './slice/BranchSlice';
+import TaskSlice from './slice/TasksSlice';
 
 const authConfig = {
   key: 'auth',
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   project: ProjectSlice.reducer,
   sidebar: SidebarSlice.reducer,
   member: MemberSlice.reducer,
-  branch: BranchSlice.reducer
+  branch: BranchSlice.reducer,
+  tasks: TaskSlice.reducer
 });
 
 const store = configureStore({

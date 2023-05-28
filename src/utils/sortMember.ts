@@ -13,9 +13,10 @@ export const handleSortByBranch = (branch: number, filterList: IUserNotPagging[]
   }
 };
 
-export const handleSortByPotion = (potionString: number, filterList: IUserNotPagging[]): IUserNotPagging[] => {
-  if (potionString !== 0) {
-    const memberPotionList = filterList.filter((member) => member.type === potionString);
+export const handleSortByPotion = (potionString: string, filterList: IUserNotPagging[]): IUserNotPagging[] => {
+  const position = Number(potionString);
+  if (position !== 0) {
+    const memberPotionList = filterList.filter((member) => member.type === position);
     return memberPotionList;
   } else {
     return (filterList);

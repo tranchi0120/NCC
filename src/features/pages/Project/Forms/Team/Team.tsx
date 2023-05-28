@@ -7,7 +7,6 @@ import { getUserNothing, selectMemberStore } from '../../../../../redux/slice/Me
 import { GetAllBranchFilter, selectBranchStore } from '../../../../../redux/slice/BranchSlice';
 import { IUserNotPagging } from '../../../../../interfaces/interface';
 import { CircularProgress } from '@material-ui/core';
-import { EUsetNotPaggingType } from '../../../../../enums/enums';
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -19,7 +18,7 @@ const Team = (): JSX.Element => {
   const [searchInputValue, setSearchInputValue] = useState('');
   const [isDeactive, seIsDeactive] = useState<boolean>(false);
   const [branchFilter, setBranchFilter] = useState(0);
-  const [position, setPosition] = useState<EUsetNotPaggingType | 'all'>('all');
+  const [position, setPosition] = useState<number | string>('all');
   const deferredSearchInputValue = useDeferredValue(searchInputValue);
   const [searchMemberValue, setSearchMemberValue] = useState('');
   const deferredMemberValue = useDeferredValue(searchMemberValue);
@@ -31,9 +30,6 @@ const Team = (): JSX.Element => {
     value: branch.id,
     label: branch.displayName
   }));
-  console.log({ branchItem });
-
-  const onSearch = (value: string): void => console.log(value);
 
   useEffect(() => {
     const fetchUsetNotPagging = async (): Promise<void> => {
@@ -56,16 +52,14 @@ const Team = (): JSX.Element => {
         return matchesWithSearchInput;
       }
       if (branchFilter === 0) {
-        return item.type === position && matchesWithSearchInput;
+        return matchesWithSearchInput && position === item.type;
       }
-
       if (position === 'all') {
-        return item.branch === branchFilter && matchesWithSearchInput;
+        return matchesWithSearchInput && branchFilter === item.branchId;
       }
-
       return (
+        item.branchId === branchFilter &&
         item.type === position &&
-        item.branch === branchFilter &&
         matchesWithSearchInput
       );
     });
@@ -102,7 +96,7 @@ const Team = (): JSX.Element => {
                 value={searchMemberValue}
                 onChange={e => setSearchMemberValue(e.target.value)} />
             </div>
-            <div className='team-memberItem'>
+            <div className='team-memberItem team-leftList'>
               {listMemberFilter.length > 0 &&
                 listMemberFilter.map((member) => (
                   <MemberItem
@@ -157,7 +151,6 @@ const Team = (): JSX.Element => {
                 <Search
                   className='team-searchMember'
                   placeholder="input search text"
-                  onSearch={onSearch}
                   style={{ width: 150 }}
                   value={searchInputValue}
                   onChange={(e) => setSearchInputValue(e.target.value)} />
@@ -168,6 +161,7 @@ const Team = (): JSX.Element => {
                 ? (userNotPaggingFilter.length > 0 && userNotPaggingFilter.map((item) => (
                   <MemberItem key={item.id} isChoosed={false} userNotPagging={item} setMemberSelected={setMemberSelected} />)))
                 : (<div className='team-loading'><CircularProgress /></div>)}
+              {userNotPaggingFilter.length === 0 && <h3>No data found</h3>}
             </div>
           </Space>
         </Panel>

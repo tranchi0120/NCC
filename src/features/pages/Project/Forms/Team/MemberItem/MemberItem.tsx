@@ -1,14 +1,13 @@
-import { CloseOutlined, LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import React, { FC, useCallback, useState } from 'react';
 import './MemberItem.scss';
 import { Select } from 'antd';
 import { IUserNotPagging } from '../../../../../../interfaces/interface';
-import { EProjectUserType, memberPosition, memberType } from '../../../../../../enums/enums';
+import { memberPosition, memberType } from '../../../../../../enums/enums';
 export interface IMemberProps {
   isChoosed: boolean
   showDeactive?: boolean
   userNotPagging: IUserNotPagging
-  positionType?: EProjectUserType
   setMemberSelected: React.Dispatch<React.SetStateAction<IUserNotPagging[]>>
 }
 
@@ -16,7 +15,6 @@ const MemberItem: FC<IMemberProps> = ({
   isChoosed,
   showDeactive,
   userNotPagging,
-  positionType,
   setMemberSelected
 }) => {
   const [userJobTitle, setUsetJobTitle] = useState(0);
@@ -38,7 +36,7 @@ const MemberItem: FC<IMemberProps> = ({
   return (
     <div className='member'>
       <div className='member-icon' onClick={() => handleSelectMember(userNotPagging.id)}>
-        {isChoosed ? <CloseOutlined /> : <LeftOutlined />}
+        {isChoosed ? <RightOutlined /> : <LeftOutlined />}
       </div>
       <div className="member-info">
         <div className='member-info__header'>

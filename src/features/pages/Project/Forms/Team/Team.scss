@@ -3,7 +3,7 @@
   justify-content: space-between;
   gap: 10px;
   &-left {
-    width: 60%;
+    width: 1400px;
     &__filter {
       display: flex;
       gap: 30px;
@@ -34,10 +34,10 @@
     visibility: visible;
     overflow-y: scroll;
   }
-  &-left,
-  &-right {
-    flex: 1;
-  }
+  // &-left,
+  // &-right {
+  //   flex: 1;
+  // }
   &-right {
     display: flex;
     flex-wrap: nowrap !important;
@@ -62,6 +62,9 @@
     justify-content: center;
     align-items: center;
   }
+  // &-leftList {
+  //   width: 1400px;
+  // }
 }
 
 .ant-space-item {

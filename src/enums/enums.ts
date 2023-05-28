@@ -26,12 +26,6 @@ export enum EProjectUserType {
   DEACTIVE,
 }
 
-export enum EUserBranch {
-  HN = 0,
-  KT = 1,
-  SG = 2,
-  DN = 3,
-}
 export enum EUsetNotPaggingType {
   STAFF = 0,
   INTERNSHIP = 1,
@@ -39,8 +33,8 @@ export enum EUsetNotPaggingType {
 }
 
 export enum ETaskType {
-  OTHER = 0,
-  COMMON = 1,
+  OTHER = 'OTHER',
+  COMMON = 'COMMON',
 }
 
 export const memberType: { [key: number]: string } = {

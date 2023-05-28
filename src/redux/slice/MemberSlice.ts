@@ -48,7 +48,5 @@ export const getUserNothing = createAsyncThunk('member/GetUserNotPagging', async
   return res;
 });
 
-export const { filterMembers } = MemberSlice.actions;
-
 export const selectMemberStore = (state: RootState): IUserNotPaggingState => state.member;
 export default MemberSlice;
