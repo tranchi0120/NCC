@@ -104,7 +104,6 @@ const Project: FC = () => {
                   ))}
               </>)
           }
-          {/* {!allProject.isLoading && allProject.data.length === 0 ? (<div className='project-searchError'>Your search results are currently unavailable!</div>) : ''} */}
         </div>
       </div>
     </div>

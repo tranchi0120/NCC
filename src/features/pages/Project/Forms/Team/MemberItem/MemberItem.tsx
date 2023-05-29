@@ -1,32 +1,49 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import './MemberItem.scss';
 import { Select } from 'antd';
 import { IUserNotPagging } from '../../../../../../interfaces/interface';
 import { memberPosition, memberType } from '../../../../../../enums/enums';
+import { useAppDispatch } from '../../../../../../redux/hooks';
+import { addUserPosition, adduserSelected, removeUserPosition, removeUserSelected } from '../../../../../../redux/slice/ProjectSlice';
 export interface IMemberProps {
   isChoosed: boolean
   showDeactive?: boolean
+  isFirst?: boolean
   userNotPagging: IUserNotPagging
-  setMemberSelected: React.Dispatch<React.SetStateAction<IUserNotPagging[]>>
 }
 
 const MemberItem: FC<IMemberProps> = ({
   isChoosed,
   showDeactive,
-  userNotPagging,
-  setMemberSelected
+  isFirst,
+  userNotPagging
 }) => {
   const [userJobTitle, setUsetJobTitle] = useState(0);
+  const dispatch = useAppDispatch();
 
   const handleSelectMember = useCallback((memberId: number) => {
     if (isChoosed) {
-      setMemberSelected((prev) => {
-        return prev.filter((member) => member.id !== memberId);
-      });
+      dispatch(removeUserSelected(memberId));
     } else {
-      setMemberSelected((prev) => [...prev, userNotPagging]);
+      dispatch(adduserSelected(userNotPagging));
     }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (isFirst) {
+      setUsetJobTitle(1);
+    }
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (isChoosed && isFirst) {
+      dispatch(addUserPosition({ userId: userNotPagging.id, type: 1 }));
+    } else if (isChoosed) {
+      dispatch(addUserPosition({ userId: userNotPagging.id, type: 0 }));
+    }
+    return () => {
+      dispatch(removeUserPosition(userNotPagging.id));
+    };
   }, []);
 
   if (showDeactive === false && userJobTitle === 3) {

@@ -88,6 +88,7 @@ const Ganeral: FC = () => {
   };
 
   const onSubmitForm = (formValues: IFormValues): void => {
+    console.log('dates:', formValues.dates);
     const [timeStart, timeEnd] = formValues.dates.split(',');
     const { dates, ...rest } = formValues;
     const submitValues = { ...rest, timeStart, timeEnd, projectType: projectTypeId };

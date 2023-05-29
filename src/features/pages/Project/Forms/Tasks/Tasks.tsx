@@ -7,6 +7,8 @@ import type { ColumnsType } from 'antd/es/table';
 import './Tasks.scss';
 import { ITaskResponse } from '../../../../../interfaces/interface';
 import taskAll from '../../../../../services/Task';
+import { addSelectedtask } from '../../../../../redux/slice/ProjectSlice';
+import { useAppDispatch } from '../../../../../redux/hooks';
 
 const { Panel: APanel } = ACollapse;
 
@@ -42,8 +44,7 @@ const Tasks: FC = () => {
   const [taskCanAdd, setTaskCanAdd] = useState<ITaskResponse[]>([]);
   const [billable, setBillable] = useState<React.Key[]>([]);
 
-  console.log('taskSelected:', taskSelected);
-  console.log('taskCanAdd:', taskCanAdd);
+  const dispatch = useAppDispatch();
 
   const taskSelectedTable: IDataType[] = useMemo(() => {
     return taskSelected.map((task) => ({
@@ -98,22 +99,31 @@ const Tasks: FC = () => {
   }, [billable]);
 
   useEffect(() => {
-    setTaskSelected(tasks.slice(0, Math.floor((tasks.length * 9) / 10)));
+    setTaskSelected(tasks.slice(0, Math.floor((tasks.length * 5) / 10)));
     setTaskCanAdd(tasks.slice(Math.floor((tasks.length * 9) / 10)));
   }, [tasks]);
-
-  const data = tasks.slice(0, Math.floor((tasks.length * 5) / 10));
-  console.log('data', data);
 
   useEffect(() => {
     setBillable(taskSelected.map((item) => item.id));
   }, [taskSelected]);
 
   useEffect(() => {
+    const tasksConvert = taskSelected.map((task) => {
+      return { taskId: task.id, billable: billable.some((item) => item === task.id) };
+    });
+
+    dispatch(addSelectedtask(tasksConvert));
+  }, [taskSelected, billable]);
+
+  useEffect(() => {
     const fetchData = async (): Promise<void> => {
       const taskData = await taskAll.getAllTask();
 
       setTasks(taskData);
+      const taskConvert = taskData
+        .slice(0, Math.floor((taskData.length * 9) / 10))
+        .map((item) => ({ taskId: item.id, billable: true }));
+      dispatch(addSelectedtask(taskConvert));
     };
 
     void fetchData();

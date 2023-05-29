@@ -7,6 +7,7 @@ import { getUserNothing, selectMemberStore } from '../../../../../redux/slice/Me
 import { GetAllBranchFilter, selectBranchStore } from '../../../../../redux/slice/BranchSlice';
 import { IUserNotPagging } from '../../../../../interfaces/interface';
 import { CircularProgress } from '@material-ui/core';
+import { selectProjectStore } from '../../../../../redux/slice/ProjectSlice';
 
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -14,7 +15,6 @@ const { Search } = Input;
 const Team = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [userNotPaggings, setUserNotPaggings] = useState<IUserNotPagging[]>([]);
-  const [memberSelected, setMemberSelected] = useState<IUserNotPagging[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [isDeactive, seIsDeactive] = useState<boolean>(false);
   const [branchFilter, setBranchFilter] = useState(0);
@@ -25,6 +25,9 @@ const Team = (): JSX.Element => {
 
   const { userNotPaggingList, isLoading } = useAppSelector(selectMemberStore);
   const { branchItem } = useAppSelector(selectBranchStore);
+
+  const { projectForm: { userSelected } } = useAppSelector(selectProjectStore);
+  console.log('userSelected:', userSelected);
 
   const branchOption = branchItem.map((branch) => ({
     value: branch.id,
@@ -65,19 +68,19 @@ const Team = (): JSX.Element => {
     });
 
     return data.filter((item) => {
-      return !memberSelected.some((member) => member.id === item.id);
+      return !userSelected.some((member) => member.id === item.id);
     });
-  }, [branchFilter, position, deferredSearchInputValue, userNotPaggings, memberSelected]);
+  }, [branchFilter, position, deferredSearchInputValue, userNotPaggings, userSelected]);
 
   const listMemberFilter = useMemo(() => {
-    return memberSelected.filter((member) => {
+    return userSelected.filter((member) => {
       const matchesWithMemberValue =
         member.name.includes(deferredMemberValue) ||
         member.emailAddress.includes(deferredMemberValue);
 
       return matchesWithMemberValue;
     });
-  }, [memberSelected, deferredMemberValue]);
+  }, [userSelected, deferredMemberValue]);
 
   useEffect(() => {
     setUserNotPaggings(userNotPaggingList);
@@ -98,12 +101,12 @@ const Team = (): JSX.Element => {
             </div>
             <div className='team-memberItem team-leftList'>
               {listMemberFilter.length > 0 &&
-                listMemberFilter.map((member) => (
+                listMemberFilter.map((member, index) => (
                   <MemberItem
-                    setMemberSelected={setMemberSelected}
                     key={member.id}
                     userNotPagging={member}
                     isChoosed={true}
+                    isFirst={index === 0}
                     showDeactive={isDeactive}
                   />
                 ))}
@@ -159,7 +162,7 @@ const Team = (): JSX.Element => {
             <div className='team-memberItem'>
               {!isLoading
                 ? (userNotPaggingFilter.length > 0 && userNotPaggingFilter.map((item) => (
-                  <MemberItem key={item.id} isChoosed={false} userNotPagging={item} setMemberSelected={setMemberSelected} />)))
+                  <MemberItem key={item.id} isChoosed={false} userNotPagging={item} />)))
                 : (<div className='team-loading'><CircularProgress /></div>)}
               {userNotPaggingFilter.length === 0 && <h3>No data found</h3>}
             </div>

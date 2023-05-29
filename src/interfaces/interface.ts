@@ -103,3 +103,34 @@ export interface IBranch {
   displayName: string
   id: number
 }
+export interface ITask {
+  taskId: number
+  billable: boolean
+}
+
+export interface IUser {
+  userId: number
+  type: number
+}
+
+export interface IProjectTargetUser {
+  userId: number
+  roleName: string
+}
+
+export interface IProjectSubmitValue {
+  name: string
+  code: string
+  status: number
+  timeStart: string
+  timeEnd: string
+  note: string | undefined
+  projectType: number
+  customerId: number
+  tasks: ITask[]
+  users: IUser[]
+  projectTargetUsers: IProjectTargetUser[]
+  komuChannelId: string | undefined
+  isNotifyToKomu: boolean
+  isAllUserBelongTo: boolean | undefined
+}
