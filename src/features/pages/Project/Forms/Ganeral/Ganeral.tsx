@@ -14,12 +14,21 @@ import { Select as ASelect, DatePicker as ADatePicker, Checkbox as ACheckbox } f
 
 import './General.scss';
 import { AppContext } from '../../../../../context/AppProvider';
-import { ICustomerResponse, IFormValues, ISelectOptionState } from '../../../../../interfaces/interface';
+import { ICustomerResponse, IFormValues, IProjectSubmitValue, ISelectOptionState } from '../../../../../interfaces/interface';
 import { EProjectType } from '../../../../../enums/enums';
 import Button from '../../../../../components/Button/Button';
 import InputGroup from '../../../../../components/InputGroup/InputGroup';
 import customer from '../../../../../services/customer';
 import getProjectType from '../../../../../utils/getProjectType';
+import { useAppDispatch, useAppSelector } from '../../../../../redux/hooks';
+import {
+  CreateProject,
+  selectProjectStore,
+  getProjectQuantity,
+  deleteUserSelected,
+  getAllProject
+} from '../../../../../redux/slice/ProjectSlice';
+import Noti from '../../../../../Noti/notification';
 
 const ProjectFormSchema = Yup.object().shape({
   name: Yup.string().max(256, 'Too Long!').trim().required('Project Name is required!'),
@@ -31,9 +40,21 @@ const ProjectFormSchema = Yup.object().shape({
 const dateFormat = 'DD/MM/YYYY';
 
 const Ganeral: FC = () => {
-  const { formRef } = useContext(AppContext);
+  const dispatch = useAppDispatch();
+  const {
+    projectStatus,
+    inputSearchProject,
+    projectForm: {
+      userSelected,
+      userSelectedToSubmit,
+      tasksSelected,
+      notification: { isNotifyToKomu, komuChannelId }
+    }
+  } = useAppSelector(selectProjectStore);
+
+  const { formRef, setIsOpen } = useContext(AppContext);
   const [clientOptions, setClientOptions] = useState<ICustomerResponse[]>([]);
-  const [projectTypeId, setProjectTypeId] = useState<EProjectType>(EProjectType.FF);
+  const [projectTypeId, setProjectTypeId] = useState<EProjectType>(1);
 
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -87,12 +108,65 @@ const Ganeral: FC = () => {
     setFieldValue(field.name, data);
   };
 
-  const onSubmitForm = (formValues: IFormValues): void => {
-    console.log('dates:', formValues.dates);
-    const [timeStart, timeEnd] = formValues.dates.split(',');
-    const { dates, ...rest } = formValues;
-    const submitValues = { ...rest, timeStart, timeEnd, projectType: projectTypeId };
-    console.log(submitValues);
+  const onSubmitForm = async (formValues: IFormValues): Promise<void> => {
+    if (userSelected.length === 0) {
+      Noti.warning({
+        message: 'Warning',
+        description: 'Project must have at least one member!'
+      });
+
+      return;
+    }
+
+    console.log(userSelectedToSubmit);
+
+    if (userSelectedToSubmit.every((item) => item.type !== 1)) {
+      Noti.warning({
+        message: 'Warning',
+        description: 'Project must have at least one Project Manager!'
+      });
+
+      return;
+    }
+
+    const { dates, isAllUser, customerId, code, name, note } = formValues;
+    const [timeStart, timeEnd] = dates.split(',').map(date => new Date(date).toISOString());
+
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (!(timeStart && timeEnd && customerId)) {
+      return;
+    }
+
+    const submitValues: IProjectSubmitValue = {
+      name: name.trim(),
+      code: code.trim(),
+      note: note?.trim(),
+      customerId,
+      timeStart,
+      timeEnd,
+      users: userSelectedToSubmit,
+      isNotifyToKomu,
+      komuChannelId,
+      tasks: tasksSelected,
+      projectType: projectTypeId,
+      isAllUserBelongTo: isAllUser,
+      projectTargetUsers: []
+    };
+
+    const result = await dispatch(CreateProject(submitValues));
+    console.log('result:', result);
+    if (result.type === 'project/createProject/fulfilled') {
+      Noti.success({ message: 'Success', description: 'Create new project successfully!' });
+      setIsOpen(false);
+      formRef.current?.handleReset();
+      dispatch(deleteUserSelected());
+      await dispatch(getProjectQuantity());
+      await dispatch(
+        getAllProject({ status: projectStatus, searchValue: inputSearchProject })
+      );
+    } else if (result.type === 'project/createProject/rejected') {
+      Noti.error({ message: 'Error', description: 'Fail to create new project!' });
+    }
   };
 
   useEffect(() => {
@@ -126,9 +200,6 @@ const Ganeral: FC = () => {
                       placeholder='Search to Select'
                       optionFilterProp='children'
                       filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                      filterSort={(optionA, optionB) => (optionA?.label ?? '')
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? '').toLowerCase())}
                       options={selectOption}
                       {...field}
                       onBlur={handleBlur(field.name)}

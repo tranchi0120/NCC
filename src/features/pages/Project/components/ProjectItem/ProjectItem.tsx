@@ -4,39 +4,13 @@ import './ProjectItem.scss';
 import { Button, Dropdown, MenuProps, Space, Tag, Tooltip } from 'antd';
 import { CheckCircleOutlined, DeleteOutlined, DownOutlined, EditOutlined, ExclamationCircleOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
 import { IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
-import { EProjectType } from '../../../../../enums/enums';
 import { format } from 'date-fns';
+import getProjectType from '../../../../../utils/getProjectType';
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
 
 const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
-  const getProjectType = (projectType: number): string | null => {
-    switch (projectType) {
-      case 0: {
-        return EProjectType.TM;
-      }
-      case 1: {
-        return EProjectType.FF;
-      }
-      case 2: {
-        return EProjectType.NB;
-      }
-      case 3: {
-        return EProjectType.ODC;
-      }
-      case 4: {
-        return EProjectType.PR;
-      }
-      case 5: {
-        return EProjectType.TR;
-      }
-      default: {
-        return null;
-      }
-    }
-  };
-
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
     return [
       {

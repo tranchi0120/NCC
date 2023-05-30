@@ -9,6 +9,8 @@ interface INotification {
   komuChannelId: string | undefined
 }
 interface IProjectState {
+  projectStatus: EProjectStatus
+  inputSearchProject: string
   projectQuantity: {
     isLoading: boolean
     active: number
@@ -23,7 +25,6 @@ interface IProjectState {
   createProject: {
     isLoading: boolean
     isError: boolean
-    dataProject: IProjectSubmitValue[]
   }
   projectForm: {
     userSelected: IUserNotPagging[]
@@ -34,6 +35,8 @@ interface IProjectState {
 }
 
 const initialState: IProjectState = {
+  projectStatus: EProjectStatus.ACTIVE,
+  inputSearchProject: '',
   projectQuantity: { isLoading: false, active: 0, deactive: 0, isError: false },
   allProject: {
     isLoading: false,
@@ -42,8 +45,7 @@ const initialState: IProjectState = {
   },
   createProject: {
     isLoading: false,
-    isError: false,
-    dataProject: []
+    isError: false
   },
   projectForm: {
     userSelected: [],
@@ -148,8 +150,6 @@ const ProjectSlice = createSlice({
       })
       .addCase(CreateProject.fulfilled, (state, action) => {
         state.createProject.isLoading = false;
-        state.createProject.isError = false;
-        state.createProject.dataProject = action.payload;
       })
       .addCase(CreateProject.rejected, (state) => {
         state.createProject.isLoading = false;
@@ -179,8 +179,7 @@ export const getProjectQuantity = createAsyncThunk('project/projectQuantitty', a
 });
 
 export const CreateProject = createAsyncThunk('project/createProject', async (ProjectData: IProjectSubmitValue) => {
-  const res: IProjectSubmitValue[] = await axiosClient.post('/api/services/app/Project/Save', ProjectData);
-  return res;
+  await axiosClient.post('/api/services/app/Project/Save', ProjectData);
 });
 
 export const {

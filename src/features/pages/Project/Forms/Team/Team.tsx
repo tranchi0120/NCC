@@ -27,7 +27,6 @@ const Team = (): JSX.Element => {
   const { branchItem } = useAppSelector(selectBranchStore);
 
   const { projectForm: { userSelected } } = useAppSelector(selectProjectStore);
-  console.log('userSelected:', userSelected);
 
   const branchOption = branchItem.map((branch) => ({
     value: branch.id,

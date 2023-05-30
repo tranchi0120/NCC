@@ -1,3 +1,5 @@
+import { EProjectType } from '../enums/enums';
+
 export interface IFormikValues {
   userNameOrEmailAddress: string
   password: string
@@ -116,16 +118,16 @@ export interface IUser {
 export interface IProjectTargetUser {
   userId: number
   roleName: string
+  id: number
 }
 
 export interface IProjectSubmitValue {
   name: string
   code: string
-  status: number
   timeStart: string
   timeEnd: string
   note: string | undefined
-  projectType: number
+  projectType: EProjectType
   customerId: number
   tasks: ITask[]
   users: IUser[]

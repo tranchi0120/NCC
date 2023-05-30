@@ -131,6 +131,7 @@ const Tasks: FC = () => {
 
   return (
     <div className='task-form'>
+      {taskSelectedTable.length === 0 && <div>Loading...</div>}
       <ATable
         className='task-table'
         columns={columns}

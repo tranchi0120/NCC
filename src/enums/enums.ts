@@ -11,12 +11,12 @@ export enum EProjectActionName {
 }
 
 export enum EProjectType {
-  TM = 'TM',
-  FF = 'FF',
-  NB = 'NB',
-  ODC = 'ODC',
-  PR = 'PR',
-  TR = 'TR'
+  TM,
+  FF,
+  NB,
+  ODC,
+  PR,
+  TR
 }
 
 export enum EProjectUserType {

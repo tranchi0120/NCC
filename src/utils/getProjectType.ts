@@ -1,17 +1,23 @@
-const getProjectType = (project: string): string | undefined => {
-  switch (project) {
-    case 'TM':
+const getProjectType = (projectType: number): string | undefined => {
+  switch (projectType) {
+    case 0: {
       return 'Time & Materials';
-    case 'FF':
+    }
+    case 1: {
       return 'Fixed Fee';
-    case 'NB':
+    }
+    case 2: {
       return 'Non-Billable';
-    case 'ODC':
+    }
+    case 3: {
       return 'ODC';
-    case 'PR':
+    }
+    case 4: {
       return 'Product';
-    case 'TR':
+    }
+    case 5: {
       return 'Training';
+    }
   }
 };
 

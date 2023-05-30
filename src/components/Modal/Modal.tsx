@@ -1,25 +1,35 @@
 import * as React from 'react';
 import type { FC } from 'react';
-import { useContext } from 'react';
 import { Divider as ADivider, Modal as AModal, ModalProps } from 'antd';
 
 import Button from '../Button/Button';
 import { AppContext } from '../../context/AppProvider';
 
 import './Modal.scss';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useNavigate } from 'react-router-dom';
+import ERoute from '../../router/RouterLink';
+import { deleteUserSelected, selectProjectStore } from '../../redux/slice/ProjectSlice';
 
 export interface IModalContent {
   title: string
   children: React.ReactNode
 }
-
 interface IModalProps extends ModalProps {
   modalContent: IModalContent
   isOpen: boolean
 }
 
 const Modal: FC<IModalProps> = ({ modalContent, isOpen, ...rest }) => {
-  const { setIsOpen, formRef } = useContext(AppContext);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { setIsOpen, formRef } = React.useContext(AppContext);
+  const {
+    createProject: {
+      isLoading
+    }
+  } = useAppSelector(selectProjectStore);
 
   const handleSubmit = (): void => {
     formRef.current?.handleSubmit();
@@ -28,6 +38,8 @@ const Modal: FC<IModalProps> = ({ modalContent, isOpen, ...rest }) => {
   const handleCloseModal = (): void => {
     setIsOpen(false);
     formRef.current?.resetForm();
+    dispatch(deleteUserSelected());
+    navigate(ERoute.PROJECT);
   };
 
   return (
@@ -38,10 +50,10 @@ const Modal: FC<IModalProps> = ({ modalContent, isOpen, ...rest }) => {
       open={isOpen}
       onCancel={handleCloseModal}
       footer={[
-        <Button key='cancel' className='modal-btn-cancel' onClick={handleCloseModal}>
+        <Button key='cancel' className='modal-btn-cancel' onClick={handleCloseModal} isDisabled={isLoading}>
           Cancel
         </Button>,
-        <Button key='save' className='modal-btn-save' htmlType='submit' onClick={handleSubmit}>
+        <Button key='save' className='modal-btn-save' htmlType='submit' onClick={handleSubmit} loading={isLoading}>
           Save
         </Button>
       ]}
