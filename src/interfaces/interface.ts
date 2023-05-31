@@ -61,12 +61,12 @@ export interface ISelectOptionState {
 }
 
 export interface IFormValues {
-  customerId: number | undefined
+  customerId: number | null
   name: string
   code: string
   dates: string
-  note?: string
-  isAllUser?: boolean
+  note?: string | null
+  isAllUser?: boolean | null
 }
 
 export interface IModalContent {
@@ -134,5 +134,5 @@ export interface IProjectSubmitValue {
   projectTargetUsers: IProjectTargetUser[]
   komuChannelId: string | undefined
   isNotifyToKomu: boolean
-  isAllUserBelongTo: boolean | undefined
+  isAllUserBelongTo?: boolean | null
 }

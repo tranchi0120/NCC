@@ -18,17 +18,12 @@ import { ICustomerResponse, IFormValues, IProjectSubmitValue, ISelectOptionState
 import { EProjectType } from '../../../../../enums/enums';
 import Button from '../../../../../components/Button/Button';
 import InputGroup from '../../../../../components/InputGroup/InputGroup';
-import customer from '../../../../../services/customer';
 import getProjectType from '../../../../../utils/getProjectType';
 import { useAppDispatch, useAppSelector } from '../../../../../redux/hooks';
-import {
-  CreateProject,
-  selectProjectStore,
-  getProjectQuantity,
-  deleteUserSelected,
-  getAllProject
-} from '../../../../../redux/slice/ProjectSlice';
 import Noti from '../../../../../Noti/notification';
+import customer from '../../../../../services/customer';
+import { deleteUserSelected, selectProjectStore } from '../../../../../redux/slice/ProjectSlice';
+import { CreateProject, getAllProject, getProjectQuantity } from '../../../../../redux/ThunkFunction/ThunkFunction';
 
 const ProjectFormSchema = Yup.object().shape({
   name: Yup.string().max(256, 'Too Long!').trim().required('Project Name is required!'),
@@ -80,12 +75,12 @@ const Ganeral: FC = () => {
 
   const initFormValue: IFormValues = useMemo(() => {
     return {
-      customerId: undefined,
+      customerId: null,
       name: '',
       code: '',
       dates: '',
-      note: undefined,
-      isAllUser: undefined
+      note: null,
+      isAllUser: null
     };
   }, []);
 
@@ -99,7 +94,6 @@ const Ganeral: FC = () => {
       setFieldValue(field.name, '');
       return;
     }
-    console.log(values);
     const data = values
       .map((value) => (((value?.toISOString()) != null) ? value.toISOString() : ''))
       .join(',')

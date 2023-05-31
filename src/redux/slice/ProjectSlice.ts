@@ -1,8 +1,8 @@
 
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { EProjectStatus, IAllProjectResponse, IParamsForAllProject, IProjectQuantity, IProjectSubmitValue, ITask, IUser, IUserNotPagging } from '../../interfaces/interface';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { EProjectStatus, IAllProjectResponse, ITask, IUser, IUserNotPagging } from '../../interfaces/interface';
 import { RootState } from '../store';
-import axiosClient from '../../api/axiosClient';
+import { CreateProject, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
 
 interface INotification {
   isNotifyToKomu: boolean
@@ -156,30 +156,6 @@ const ProjectSlice = createSlice({
         state.createProject.isError = true;
       });
   }
-});
-
-export const getAllProject = createAsyncThunk('project/getallProject', async (data: IParamsForAllProject) => {
-  const params =
-    data.status === EProjectStatus.ALL
-      ? { search: data.searchValue }
-      : { status: data.status, search: data.searchValue };
-
-  const response: IAllProjectResponse[] = await axiosClient.get(
-    '/api/services/app/Project/GetAll',
-    { params }
-  );
-  return response;
-});
-
-export const getProjectQuantity = createAsyncThunk('project/projectQuantitty', async () => {
-  const response: IProjectQuantity[] = await axiosClient.get(
-    '/api/services/app/Project/GetQuantityProject'
-  );
-  return response;
-});
-
-export const CreateProject = createAsyncThunk('project/createProject', async (ProjectData: IProjectSubmitValue) => {
-  await axiosClient.post('/api/services/app/Project/Save', ProjectData);
 });
 
 export const {

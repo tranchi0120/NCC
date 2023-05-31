@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import './Project.scss';
 import { Button, Select, Input as Search, InputRef } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { getAllProject, getProjectQuantity, selectProjectStore } from '../../../redux/slice/ProjectSlice';
+import { selectProjectStore } from '../../../redux/slice/ProjectSlice';
 import { EProjectStatus, IModalContent } from '../../../interfaces/interface';
 import { CircularProgress } from '@material-ui/core';
 import ProjectItem from './components/ProjectItem/ProjectItem';
@@ -12,6 +12,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { EProjectStatusTitle } from '../../../enums/enums';
 import { AppContext } from '../../../context/AppProvider';
 import FormTabs from './Forms/FormTabs/FormTabs';
+import { getAllProject, getProjectQuantity } from '../../../redux/ThunkFunction/ThunkFunction';
 
 const Project: FC = () => {
   const dispatch = useAppDispatch();
