@@ -175,21 +175,17 @@ const ProjectSlice = createSlice({
         state.allProject.isError = true;
       });
     builder
+      // IsDeactive or active
       .addCase(IsDeactive.pending, (state) => {
         state.allProject.isLoading = true;
       })
       .addCase(IsDeactive.fulfilled, (state, action) => {
         state.allProject.isLoading = false;
-        state.allProject.data = state.allProject.data.map(item => {
-          if (item.id === action.payload) {
-            if (item.status === EProjectStatus.ACTIVE) {
-              return { ...item, status: EProjectStatus.DEACTIVE };
-            } else if (item.status === EProjectStatus.DEACTIVE) {
-              return { ...item, status: EProjectStatus.ACTIVE };
-            }
-          }
-          return item;
-        });
+        const index = state.allProject.data.findIndex(item => item.id === action.payload);
+        const item = state.allProject.data[index];
+        if (index !== -1) {
+          item.status = EProjectStatus.DEACTIVE;
+        }
       })
       .addCase(IsDeactive.rejected, (state) => {
         state.allProject.isLoading = false;

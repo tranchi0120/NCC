@@ -33,6 +33,6 @@ export const DeleteProject = createAsyncThunk('project/deleteProject', async (pr
 });
 
 export const IsDeactive = createAsyncThunk('project/isDeactive', async (projectId: number) => {
-  await axiosClient.post('/api/services/app/Project/Inactive');
+  await axiosClient.post('/api/services/app/Project/Inactive', { projectId });
   return projectId;
 });

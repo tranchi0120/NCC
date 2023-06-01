@@ -7,10 +7,14 @@ import { IAllProjectResponse, IModalContent, ISortProjectState } from '../../../
 import { format } from 'date-fns';
 import getProjectType from '../../../../../utils/getProjectType';
 import { useAppDispatch } from '../../../../../redux/hooks';
-import { DeleteProject, IsDeactive } from '../../../../../redux/ThunkFunction/ThunkFunction';
+import { DeleteProject, getProjectQuantity } from '../../../../../redux/ThunkFunction/ThunkFunction';
 import { AppContext } from '../../../../../context/AppContext';
 import FormTabs from '../../Forms/FormTabs/FormTabs';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+import { activeProject, inActiveProject } from '../../../../../services/services';
+import { isAxiosError } from 'axios';
+import Noti from '../../../../../Noti/notification';
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
@@ -32,36 +36,6 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
     []
   );
 
-  const handlIsDeactive = (id: number): void => {
-    void Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this item!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes!'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await dispatch(IsDeactive(id));
-        console.log(result);
-        if (result.type === 'project/isDeactive/fulfilled') {
-          void Swal.fire(
-            'DeActive!',
-            'Are You Sure.',
-            'success'
-          );
-        } else if (result.type === 'project/isDeactive/rejected') {
-          void Swal.fire(
-            'Error!',
-            'Failed to DeActive the item.',
-            'error'
-          );
-        }
-      }
-    });
-  };
-
   const handleDelete = (id: number): void => {
     void Swal.fire({
       title: 'Are you sure?',
@@ -75,23 +49,50 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       if (result.isConfirmed) {
         const result = await dispatch(DeleteProject(id));
         if (result.type === 'project/deleteProject/fulfilled') {
-          void Swal.fire(
-            'Deleted!',
-            'Your item has been deleted.',
-            'success'
-          );
+          Noti.success({ message: 'Success', description: ' Delete project successfully!' });
         } else if (result.type === 'project/deleteProject/rejected') {
-          void Swal.fire(
-            'Error!',
-            'Failed to delete the item.',
-            'error'
-          );
+          Noti.error({ message: 'Error', description: 'Fail to Delete project!' });
         }
       }
     });
   };
 
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
+    const handleActiveOrDeactive = async (): Promise<void> => {
+      void Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this item!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          if (project != null) {
+            try {
+              let res;
+              if (project.status === 0) {
+                res = await inActiveProject(project.id);
+              } else {
+                res = await activeProject(project.id);
+              }
+              if (res.status === 200) {
+                Noti.success({ message: 'Success', description: ' Deactive project successfully!' });
+              }
+            } catch (error) {
+              const errorMessage = isAxiosError(error)
+                ? error.message
+                : project.status === 0
+                  ? 'An error occurred when deactivating the project'
+                  : 'An error occurred when activating the project';
+              toast.error(errorMessage);
+            }
+          }
+          await dispatch(getProjectQuantity());
+        }
+      });
+    };
     return [
       {
         label: 'Edit',
@@ -110,13 +111,20 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       {
         label: 'View',
         key: '2',
-        icon: <EyeOutlined />
+        icon: <EyeOutlined />,
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onClick: async () => {
+          await handleActiveOrDeactive();
+        }
       },
       {
-        label: 'Deactive',
+        label: project.status === 0 ? 'Deactive' : 'Active',
         key: '3',
         icon: <FolderViewOutlined />,
-        onClick: () => handlIsDeactive(project.id)
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onClick: async () => {
+          await handleActiveOrDeactive();
+        }
       },
       {
         label: 'Delete',
