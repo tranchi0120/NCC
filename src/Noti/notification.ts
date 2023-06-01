@@ -13,7 +13,7 @@ export interface IOptions {
 const getOptions = (props: IOptions): Required<IOptions> => {
   return {
     duration: 2,
-    placement: 'top',
+    placement: 'topRight',
     key: '1',
     style: {
       zIndex: 1000

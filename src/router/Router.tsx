@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from 'react';
-import { Navigate, createBrowserRouter, useNavigate } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 import ERoute from './RouterLink';
 import Login from '../features/pages/Login/Login';
 import NotFound from '../features/pages/NotFound/NotFound';
@@ -12,12 +12,12 @@ interface props {
 }
 
 export const PrivateRoute = ({ children }: props): any => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const userInfo = getAccessToken();
 
   useEffect(() => {
     if (userInfo.length > 0) {
-      navigate(ERoute.HOME);
+      <Navigate to={ERoute.HOME} />;
     } else {
       <Navigate to={ERoute.LOGIN} />;
     }

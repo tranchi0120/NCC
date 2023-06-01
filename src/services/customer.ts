@@ -11,9 +11,3 @@ const customer = {
 };
 
 export default customer;
-
-export const deleteProject = {
-  DeleteProject: async (projectId: number) => {
-    return await axiosClient.delete(`/api/services/app/Project/Delete?Id=${projectId}`);
-  }
-};

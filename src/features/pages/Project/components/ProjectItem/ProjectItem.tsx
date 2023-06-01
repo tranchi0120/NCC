@@ -10,6 +10,8 @@ import { useAppDispatch } from '../../../../../redux/hooks';
 import { DeleteProject } from '../../../../../redux/ThunkFunction/ThunkFunction';
 import { AppContext } from '../../../../../context/AppContext';
 import FormTabs from '../../Forms/FormTabs/FormTabs';
+import Noti from '../../../../../Noti/notification';
+import Swal from 'sweetalert2';
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
@@ -30,6 +32,43 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
     },
     []
   );
+
+  // const handleDelete = async (id: number): Promise<void> => {
+  //   // console.log(id);
+  //   // void dispatch(DeleteProject(id));
+  //   const result = await dispatch(DeleteProject(id));
+  //   if (result.type === 'project/deleteProject/fulfilled') {
+  //     Noti.success({ message: 'Success', description: 'Delete project successfully!' });
+  //   } else if (result.type === 'project/deleteProject/rejected') {
+  //     Noti.error({ message: 'Error', description: 'Fail to create Delete project!' });
+  //   }
+  // };
+
+  const handleDelete = (id: number): void => {
+    void Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await dispatch(DeleteProject(id));
+        if (result.type === 'project/deleteProject/fulfilled') {
+          Noti.success({ message: 'Success', description: 'Delete project successfully!' });
+        } else if (result.type === 'project/deleteProject/rejected') {
+          Noti.error({ message: 'Error', description: 'Fail to create Delete project!' });
+        }
+        void Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
+      }
+    });
+  };
 
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
     return [
@@ -61,10 +100,7 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
         label: 'Delete',
         key: '4',
         icon: <DeleteOutlined />,
-        onClick: () => {
-          console.log(project.id);
-          void dispatch(DeleteProject(project.id));
-        }
+        onClick: () => handleDelete(project.id)
       }
     ];
   }, []);

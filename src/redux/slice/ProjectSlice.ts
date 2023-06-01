@@ -159,12 +159,16 @@ const ProjectSlice = createSlice({
         state.createProject.isLoading = false;
         state.createProject.isError = true;
       });
+    // delete project
     builder
+      .addCase(DeleteProject.pending, (state) => {
+        state.allProject.isLoading = true;
+      })
       .addCase(DeleteProject.fulfilled, (state, action) => {
         state.allProject.isLoading = false;
         state.allProject.data = state.allProject.data.filter(project => project.id !== action.payload);
       })
-      .addCase(DeleteProject.rejected, (state, action) => {
+      .addCase(DeleteProject.rejected, (state) => {
         state.allProject.isLoading = false;
         state.allProject.isError = true;
       });
