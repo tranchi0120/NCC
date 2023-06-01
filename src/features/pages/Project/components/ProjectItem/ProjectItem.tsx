@@ -10,7 +10,6 @@ import { useAppDispatch } from '../../../../../redux/hooks';
 import { DeleteProject } from '../../../../../redux/ThunkFunction/ThunkFunction';
 import { AppContext } from '../../../../../context/AppContext';
 import FormTabs from '../../Forms/FormTabs/FormTabs';
-import Noti from '../../../../../Noti/notification';
 import Swal from 'sweetalert2';
 interface IProjectItemProps {
   projectItem: ISortProjectState
@@ -33,17 +32,6 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
     []
   );
 
-  // const handleDelete = async (id: number): Promise<void> => {
-  //   // console.log(id);
-  //   // void dispatch(DeleteProject(id));
-  //   const result = await dispatch(DeleteProject(id));
-  //   if (result.type === 'project/deleteProject/fulfilled') {
-  //     Noti.success({ message: 'Success', description: 'Delete project successfully!' });
-  //   } else if (result.type === 'project/deleteProject/rejected') {
-  //     Noti.error({ message: 'Error', description: 'Fail to create Delete project!' });
-  //   }
-  // };
-
   const handleDelete = (id: number): void => {
     void Swal.fire({
       title: 'Are you sure?',
@@ -57,18 +45,30 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       if (result.isConfirmed) {
         const result = await dispatch(DeleteProject(id));
         if (result.type === 'project/deleteProject/fulfilled') {
-          Noti.success({ message: 'Success', description: 'Delete project successfully!' });
+          void Swal.fire(
+            'Deleted!',
+            'Your item has been deleted.',
+            'success'
+          );
         } else if (result.type === 'project/deleteProject/rejected') {
-          Noti.error({ message: 'Error', description: 'Fail to create Delete project!' });
+          void Swal.fire(
+            'Error!',
+            'Failed to delete the item.',
+            'error'
+          );
         }
-        void Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        );
       }
     });
   };
+
+  // const performDeleteOperation = async (id: number): Promise<void> => {
+  //   const result = await dispatch(DeleteProject(id));
+  //   if (result.type === 'project/deleteProject/fulfilled') {
+  //     Noti.success({ message: 'Success', description: 'Delete project successfully!' });
+  //   } else if (result.type === 'project/deleteProject/rejected') {
+  //     Noti.error({ message: 'Error', description: 'Fail to create Delete project!' });
+  //   }
+  // };
 
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
     return [
