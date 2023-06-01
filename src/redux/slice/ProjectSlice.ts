@@ -3,7 +3,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IAllProjectResponse, ITask, IUser, IUserNotPagging } from '../../interfaces/interface';
 import { RootState } from '../store';
-import { CreateProject, DeleteProject, IsDeactive, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
+import { CreateProject, DeleteProject, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
 import { EProjectStatus } from '../../enums/enums';
 
 interface INotification {
@@ -171,23 +171,6 @@ const ProjectSlice = createSlice({
         state.allProject.data = state.allProject.data.filter(project => project.id !== action.payload);
       })
       .addCase(DeleteProject.rejected, (state) => {
-        state.allProject.isLoading = false;
-        state.allProject.isError = true;
-      });
-    builder
-      // IsDeactive or active
-      .addCase(IsDeactive.pending, (state) => {
-        state.allProject.isLoading = true;
-      })
-      .addCase(IsDeactive.fulfilled, (state, action) => {
-        state.allProject.isLoading = false;
-        const index = state.allProject.data.findIndex(item => item.id === action.payload);
-        const item = state.allProject.data[index];
-        if (index !== -1) {
-          item.status = EProjectStatus.DEACTIVE;
-        }
-      })
-      .addCase(IsDeactive.rejected, (state) => {
         state.allProject.isLoading = false;
         state.allProject.isError = true;
       });
