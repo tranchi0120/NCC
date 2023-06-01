@@ -61,15 +61,6 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
     });
   };
 
-  // const performDeleteOperation = async (id: number): Promise<void> => {
-  //   const result = await dispatch(DeleteProject(id));
-  //   if (result.type === 'project/deleteProject/fulfilled') {
-  //     Noti.success({ message: 'Success', description: 'Delete project successfully!' });
-  //   } else if (result.type === 'project/deleteProject/rejected') {
-  //     Noti.error({ message: 'Error', description: 'Fail to create Delete project!' });
-  //   }
-  // };
-
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
     return [
       {

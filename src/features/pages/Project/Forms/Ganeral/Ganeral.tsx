@@ -21,9 +21,9 @@ import InputGroup from '../../../../../components/InputGroup/InputGroup';
 import getProjectType from '../../../../../utils/getProjectType';
 import { useAppDispatch, useAppSelector } from '../../../../../redux/hooks';
 import Noti from '../../../../../Noti/notification';
-import customer from '../../../../../services/customer';
 import { deleteUserSelected, selectProjectStore } from '../../../../../redux/slice/ProjectSlice';
 import { CreateProject, getAllProject, getProjectQuantity } from '../../../../../redux/ThunkFunction/ThunkFunction';
+import services from '../../../../../services/services';
 
 const ProjectFormSchema = Yup.object().shape({
   name: Yup.string().max(256, 'Too Long!').trim().required('Project Name is required!'),
@@ -165,7 +165,7 @@ const Ganeral: FC = () => {
 
   useEffect(() => {
     const fetchCustomer = async (): Promise<void> => {
-      const result = await customer.getAllClient();
+      const result = await services.getAllClient();
       setClientOptions(result);
     };
     void fetchCustomer();

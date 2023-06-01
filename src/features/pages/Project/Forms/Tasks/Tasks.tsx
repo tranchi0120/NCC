@@ -6,9 +6,9 @@ import type { ColumnsType } from 'antd/es/table';
 
 import './Tasks.scss';
 import { ITaskResponse } from '../../../../../interfaces/interface';
-import taskAll from '../../../../../services/Task';
 import { addSelectedtask } from '../../../../../redux/slice/ProjectSlice';
 import { useAppDispatch } from '../../../../../redux/hooks';
+import services from '../../../../../services/services';
 
 const { Panel: APanel } = ACollapse;
 
@@ -118,7 +118,7 @@ const Tasks: FC = () => {
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      const taskData = await taskAll.getAllTask();
+      const taskData = await services.getAllTask();
 
       setTasks(taskData);
       const taskConvert = taskData
