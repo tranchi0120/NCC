@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useCallback, useContext } from 'react';
 import type { FC } from 'react';
 import './ProjectItem.scss';
@@ -7,13 +8,11 @@ import { IAllProjectResponse, IModalContent, ISortProjectState } from '../../../
 import { format } from 'date-fns';
 import getProjectType from '../../../../../utils/getProjectType';
 import { useAppDispatch } from '../../../../../redux/hooks';
-import { DeleteProject, getProjectQuantity } from '../../../../../redux/ThunkFunction/ThunkFunction';
+import { DeleteProject, getAllProject } from '../../../../../redux/ThunkFunction/ThunkFunction';
 import { AppContext } from '../../../../../context/AppContext';
 import FormTabs from '../../Forms/FormTabs/FormTabs';
 import Swal from 'sweetalert2';
-import { toast } from 'react-toastify';
 import { activeProject, inActiveProject } from '../../../../../services/services';
-import { isAxiosError } from 'axios';
 import Noti from '../../../../../Noti/notification';
 interface IProjectItemProps {
   projectItem: ISortProjectState
@@ -61,7 +60,7 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
     const handleActiveOrDeactive = async (): Promise<void> => {
       void Swal.fire({
         title: 'Are you sure?',
-        text: 'You will not be able to recover this item!',
+        text: project.name,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -78,18 +77,13 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
                 res = await activeProject(project.id);
               }
               if (res.status === 200) {
-                Noti.success({ message: 'Success', description: ' Deactive project successfully!' });
+                Noti.success({ message: 'Success', description: project.status === 0 ? 'Deactive project successfully!' : 'Active project successfully!' });
               }
+              void dispatch(getAllProject(project));
             } catch (error) {
-              const errorMessage = isAxiosError(error)
-                ? error.message
-                : project.status === 0
-                  ? 'An error occurred when deactivating the project'
-                  : 'An error occurred when activating the project';
-              toast.error(errorMessage);
+              Noti.error({ message: 'Error', description: 'Fail to create new project!' });
             }
           }
-          await dispatch(getProjectQuantity());
         }
       });
     };
@@ -111,17 +105,12 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       {
         label: 'View',
         key: '2',
-        icon: <EyeOutlined />,
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onClick: async () => {
-          await handleActiveOrDeactive();
-        }
+        icon: <EyeOutlined />
       },
       {
         label: project.status === 0 ? 'Deactive' : 'Active',
         key: '3',
         icon: <FolderViewOutlined />,
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick: async () => {
           await handleActiveOrDeactive();
         }
