@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { EProjectStatus, IAllProjectResponse, ITask, IUser, IUserNotPagging } from '../../interfaces/interface';
+import { IAllProjectResponse, ITask, IUser, IUserNotPagging } from '../../interfaces/interface';
 import { RootState } from '../store';
-import { CreateProject, DeleteProject, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
+import { CreateProject, DeleteProject, IsDeactive, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
+import { EProjectStatus } from '../../enums/enums';
 
 interface INotification {
   isNotifyToKomu: boolean
@@ -152,7 +154,7 @@ const ProjectSlice = createSlice({
       .addCase(CreateProject.pending, (state) => {
         state.createProject.isLoading = true;
       })
-      .addCase(CreateProject.fulfilled, (state, action) => {
+      .addCase(CreateProject.fulfilled, (state) => {
         state.createProject.isLoading = false;
       })
       .addCase(CreateProject.rejected, (state) => {
@@ -169,6 +171,27 @@ const ProjectSlice = createSlice({
         state.allProject.data = state.allProject.data.filter(project => project.id !== action.payload);
       })
       .addCase(DeleteProject.rejected, (state) => {
+        state.allProject.isLoading = false;
+        state.allProject.isError = true;
+      });
+    builder
+      .addCase(IsDeactive.pending, (state) => {
+        state.allProject.isLoading = true;
+      })
+      .addCase(IsDeactive.fulfilled, (state, action) => {
+        state.allProject.isLoading = false;
+        state.allProject.data = state.allProject.data.map(item => {
+          if (item.id === action.payload) {
+            if (item.status === EProjectStatus.ACTIVE) {
+              return { ...item, status: EProjectStatus.DEACTIVE };
+            } else if (item.status === EProjectStatus.DEACTIVE) {
+              return { ...item, status: EProjectStatus.ACTIVE };
+            }
+          }
+          return item;
+        });
+      })
+      .addCase(IsDeactive.rejected, (state) => {
         state.allProject.isLoading = false;
         state.allProject.isError = true;
       });

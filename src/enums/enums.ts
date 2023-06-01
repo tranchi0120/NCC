@@ -36,3 +36,9 @@ export enum ETaskType {
   OTHER = 'OTHER',
   COMMON = 'COMMON',
 }
+
+export enum EProjectStatus {
+  ACTIVE = 0,
+  DEACTIVE = 1,
+  ALL = 2,
+}

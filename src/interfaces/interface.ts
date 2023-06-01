@@ -1,4 +1,4 @@
-import { EProjectType } from '../enums/enums';
+import { EProjectStatus, EProjectType } from '../enums/enums';
 
 export interface IFormikValues {
   userNameOrEmailAddress: string
@@ -19,12 +19,6 @@ export interface ILoginResponse {
 export interface ILoginActionData {
   accessToken: string
   isRemember: boolean
-}
-
-export enum EProjectStatus {
-  ACTIVE = 0,
-  DEACTIVE = 1,
-  ALL = 2,
 }
 export interface IAllProjectResponse {
   customerName: string

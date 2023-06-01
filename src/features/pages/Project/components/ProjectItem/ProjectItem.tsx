@@ -7,7 +7,7 @@ import { IAllProjectResponse, IModalContent, ISortProjectState } from '../../../
 import { format } from 'date-fns';
 import getProjectType from '../../../../../utils/getProjectType';
 import { useAppDispatch } from '../../../../../redux/hooks';
-import { DeleteProject } from '../../../../../redux/ThunkFunction/ThunkFunction';
+import { DeleteProject, IsDeactive } from '../../../../../redux/ThunkFunction/ThunkFunction';
 import { AppContext } from '../../../../../context/AppContext';
 import FormTabs from '../../Forms/FormTabs/FormTabs';
 import Swal from 'sweetalert2';
@@ -31,6 +31,36 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
     },
     []
   );
+
+  const handlIsDeactive = (id: number): void => {
+    void Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this item!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await dispatch(IsDeactive(id));
+        console.log(result);
+        if (result.type === 'project/isDeactive/fulfilled') {
+          void Swal.fire(
+            'DeActive!',
+            'Are You Sure.',
+            'success'
+          );
+        } else if (result.type === 'project/isDeactive/rejected') {
+          void Swal.fire(
+            'Error!',
+            'Failed to DeActive the item.',
+            'error'
+          );
+        }
+      }
+    });
+  };
 
   const handleDelete = (id: number): void => {
     void Swal.fire({
@@ -85,7 +115,8 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       {
         label: 'Deactive',
         key: '3',
-        icon: <FolderViewOutlined />
+        icon: <FolderViewOutlined />,
+        onClick: () => handlIsDeactive(project.id)
       },
       {
         label: 'Delete',
