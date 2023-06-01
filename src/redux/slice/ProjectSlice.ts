@@ -2,7 +2,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { EProjectStatus, IAllProjectResponse, ITask, IUser, IUserNotPagging } from '../../interfaces/interface';
 import { RootState } from '../store';
-import { CreateProject, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
+import { CreateProject, DeleteProject, getAllProject, getProjectQuantity } from '../ThunkFunction/ThunkFunction';
 
 interface INotification {
   isNotifyToKomu: boolean
@@ -100,6 +100,10 @@ const ProjectSlice = createSlice({
     },
     UpdateNotifyToKomu: (state, action: PayloadAction<string>) => {
       state.projectForm.notification.komuChannelId = action.payload;
+    },
+    DeleteProjectItem: (state, action: PayloadAction<number>) => {
+      state.allProject.isLoading = false;
+      state.allProject.data = state.allProject.data.filter(project => project.id !== action.payload);
     }
 
   },
@@ -155,6 +159,15 @@ const ProjectSlice = createSlice({
         state.createProject.isLoading = false;
         state.createProject.isError = true;
       });
+    builder
+      .addCase(DeleteProject.fulfilled, (state, action) => {
+        state.allProject.isLoading = false;
+        state.allProject.data = state.allProject.data.filter(project => project.id !== action.payload);
+      })
+      .addCase(DeleteProject.rejected, (state, action) => {
+        state.allProject.isLoading = false;
+        state.allProject.isError = true;
+      });
   }
 });
 
@@ -167,7 +180,8 @@ export const {
   adduserSelected,
   CheckNotifyToKomu,
   UpdateNotifyToKomu,
-  UpdateUserPosition
+  UpdateUserPosition,
+  DeleteProjectItem
 } = ProjectSlice.actions;
 export const selectProjectStore = (state: RootState): IProjectState => state.project;
 export default ProjectSlice;

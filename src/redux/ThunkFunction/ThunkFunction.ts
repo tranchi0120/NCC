@@ -25,3 +25,8 @@ export const getProjectQuantity = createAsyncThunk('project/projectQuantitty', a
 export const CreateProject = createAsyncThunk('project/createProject', async (ProjectData: IProjectSubmitValue) => {
   await axiosClient.post('/api/services/app/Project/Save', ProjectData);
 });
+
+export const DeleteProject = createAsyncThunk('project/deleteProject', async (projectId: number) => {
+  await axiosClient.delete(`/api/services/app/Project/Delete?Id=${projectId}`);
+  return projectId;
+});

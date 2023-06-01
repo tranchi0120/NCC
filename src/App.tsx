@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 import Header from './features/Layout/Header/Header';
 import { selectSidebarStore, toggleSidebar } from './redux/slice/SidabarSlice';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
-import AppProvider from './context/AppProvider';
+import AppProvider from './context/AppContext';
 
 const App = (): JSX.Element => {
   const { isShowSidebar } = useAppSelector(selectSidebarStore);

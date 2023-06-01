@@ -1,22 +1,51 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { FC } from 'react';
 import './ProjectItem.scss';
 import { Button, Dropdown, MenuProps, Space, Tag, Tooltip } from 'antd';
 import { CheckCircleOutlined, DeleteOutlined, DownOutlined, EditOutlined, ExclamationCircleOutlined, EyeOutlined, FolderViewOutlined } from '@ant-design/icons';
-import { IAllProjectResponse, ISortProjectState } from '../../../../../interfaces/interface';
+import { IAllProjectResponse, IModalContent, ISortProjectState } from '../../../../../interfaces/interface';
 import { format } from 'date-fns';
 import getProjectType from '../../../../../utils/getProjectType';
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { DeleteProject } from '../../../../../redux/ThunkFunction/ThunkFunction';
+import { AppContext } from '../../../../../context/AppContext';
+import FormTabs from '../../Forms/FormTabs/FormTabs';
 interface IProjectItemProps {
   projectItem: ISortProjectState
 }
 
 const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
+  const dispatch = useAppDispatch();
+  const { setIsOpen, setModalContent } = useContext(AppContext);
+
+  const onEditModal = useCallback(
+    async (modalContent: IModalContent, projectId?: number): Promise<void> => {
+      setIsOpen(true);
+      setModalContent(modalContent);
+      if (projectId == null) {
+        return;
+      }
+
+      await dispatch(DeleteProject(projectId));
+    },
+    []
+  );
+
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
     return [
       {
         label: 'Edit',
         key: '1',
-        icon: <EditOutlined />
+        icon: <EditOutlined />,
+        onClick: () => {
+          void onEditModal(
+            {
+              title: `Edit Project: ${project.name}`,
+              children: <FormTabs />
+            },
+            project.id
+          );
+        }
       },
       {
         label: 'View',
@@ -31,7 +60,11 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       {
         label: 'Delete',
         key: '4',
-        icon: <DeleteOutlined />
+        icon: <DeleteOutlined />,
+        onClick: () => {
+          console.log(project.id);
+          void dispatch(DeleteProject(project.id));
+        }
       }
     ];
   }, []);

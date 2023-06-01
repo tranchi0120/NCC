@@ -1,4 +1,5 @@
 .wrapper-input {
+  height: 70px;
   display: flex;
   gap: 80px;
   justify-content: flex-start;
@@ -37,4 +38,10 @@
     background: orange;
     color: #ffff;
   }
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }

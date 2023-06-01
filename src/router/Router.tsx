@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { Navigate, createBrowserRouter, useNavigate } from 'react-router-dom';
 import ERoute from './RouterLink';
 import Login from '../features/pages/Login/Login';
@@ -12,18 +12,16 @@ interface props {
 }
 
 export const PrivateRoute = ({ children }: props): any => {
-  const userInfo = getAccessToken();
   const navigate = useNavigate();
+  const userInfo = getAccessToken();
 
-  if (userInfo.length === 0) {
-    return <Navigate to={ERoute.LOGIN} />;
-  }
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (userInfo.length > 0) {
       navigate(ERoute.HOME);
+    } else {
+      <Navigate to={ERoute.LOGIN} />;
     }
-  }, [navigate, userInfo]);
+  }, [userInfo]);
 
   return <>{children}</>;
 };

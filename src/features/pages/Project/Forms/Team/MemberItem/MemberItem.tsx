@@ -3,9 +3,9 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import './MemberItem.scss';
 import { Select } from 'antd';
 import { IUserNotPagging } from '../../../../../../interfaces/interface';
-import { memberPosition, memberType } from '../../../../../../enums/enums';
 import { useAppDispatch } from '../../../../../../redux/hooks';
 import { addUserPosition, adduserSelected, removeUserPosition, removeUserSelected } from '../../../../../../redux/slice/ProjectSlice';
+import { memberPosition, memberType, optionMemberPosition } from '../../../../../../constant/constant';
 export interface IMemberProps {
   isChoosed: boolean
   showDeactive?: boolean
@@ -19,7 +19,7 @@ const MemberItem: FC<IMemberProps> = ({
   isFirst,
   userNotPagging
 }) => {
-  const [userJobTitle, setUsetJobTitle] = useState(0);
+  const [userJobTitle, setUsetJobTitle] = useState(optionMemberPosition[0]);
   const dispatch = useAppDispatch();
 
   const handleSelectMember = useCallback((memberId: number) => {
@@ -33,7 +33,7 @@ const MemberItem: FC<IMemberProps> = ({
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (isFirst) {
-      setUsetJobTitle(1);
+      setUsetJobTitle(optionMemberPosition[1]);
     }
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (isChoosed && isFirst) {
@@ -46,7 +46,7 @@ const MemberItem: FC<IMemberProps> = ({
     };
   }, []);
 
-  if (showDeactive === false && userJobTitle === 3) {
+  if (showDeactive === false && userJobTitle === optionMemberPosition[3]) {
     return null;
   }
 

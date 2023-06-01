@@ -33,6 +33,7 @@
     "redux-persist": "^6.0.0",
     "remixicon": "^3.2.0",
     "sass": "^1.62.1",
+    "sweetalert2": "^11.7.10",
     "typescript": "*",
     "web-vitals": "^2.1.4",
     "yup": "^1.1.1"

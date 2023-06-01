@@ -99,7 +99,8 @@ const Tasks: FC = () => {
   }, [billable]);
 
   useEffect(() => {
-    setTaskSelected(tasks.slice(0, Math.floor((tasks.length * 5) / 10)));
+    const startIndex = 0;
+    setTaskSelected(tasks.slice(startIndex, Math.floor((tasks.length * 5) / 10)));
     setTaskCanAdd(tasks.slice(Math.floor((tasks.length * 9) / 10)));
   }, [tasks]);
 

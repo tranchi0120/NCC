@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Divider as ADivider, Modal as AModal, ModalProps } from 'antd';
 
 import Button from '../Button/Button';
-import { AppContext } from '../../context/AppProvider';
+import { AppContext } from '../../context/AppContext';
 
 import './Modal.scss';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';

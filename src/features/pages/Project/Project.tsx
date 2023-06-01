@@ -10,7 +10,7 @@ import ProjectItem from './components/ProjectItem/ProjectItem';
 import sortProject from '../../../utils/sortProject';
 import { SearchOutlined } from '@ant-design/icons';
 import { EProjectStatusTitle } from '../../../enums/enums';
-import { AppContext } from '../../../context/AppProvider';
+import { AppContext } from '../../../context/AppContext';
 import FormTabs from './Forms/FormTabs/FormTabs';
 import { getAllProject, getProjectQuantity } from '../../../redux/ThunkFunction/ThunkFunction';
 

@@ -13,7 +13,7 @@ import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { Select as ASelect, DatePicker as ADatePicker, Checkbox as ACheckbox } from 'antd';
 
 import './General.scss';
-import { AppContext } from '../../../../../context/AppProvider';
+import { AppContext } from '../../../../../context/AppContext';
 import { ICustomerResponse, IFormValues, IProjectSubmitValue, ISelectOptionState } from '../../../../../interfaces/interface';
 import { EProjectType } from '../../../../../enums/enums';
 import Button from '../../../../../components/Button/Button';
