@@ -74,7 +74,7 @@ const Tasks: FC = () => {
   const handleSelectedTask = useCallback(
     (taskId: number): void => {
       const [taskItem] = tasks.filter((task) => task.id === taskId);
-      setTaskSelected((prev) => [...prev, taskItem]);
+      setTaskSelected((prev) => [taskItem, ...prev]);
       setTaskCanAdd((prev) => prev.filter((item) => item.id !== taskId));
     },
     [tasks]
@@ -83,7 +83,7 @@ const Tasks: FC = () => {
   const handleRemoveTask = useCallback(
     (taskId: number): void => {
       const [taskItem] = tasks.filter((task) => task.id === taskId);
-      setTaskCanAdd((prev) => [...prev, taskItem]);
+      setTaskCanAdd((prev) => [taskItem, ...prev]);
       setTaskSelected((prev) => prev.filter((item) => item.id !== taskId));
     },
     [tasks]
@@ -132,25 +132,22 @@ const Tasks: FC = () => {
 
   return (
     <div className='task-form'>
-      {taskSelectedTable.length === 0 && <div>Loading...</div>}
       <ATable
         className='task-table'
         columns={columns}
-        pagination={false}
+        pagination={{ pageSize: 10, hideOnSinglePage: true, showSizeChanger: false }}
         rowSelection={rowSelection}
         dataSource={taskSelectedTable}
       />
-      <ACollapse bordered={false} className='task-collapse'>
+      <ACollapse bordered={false} defaultActiveKey={['1']} className='task-collapse'>
         <APanel header='Select task' showArrow={false} key='1'>
-          <div className='panel-body'>
-            <ATable
-              showHeader={false}
-              className='task-table'
-              columns={columnsTwo}
-              pagination={false}
-              dataSource={taskCanAddTable}
-            />
-          </div>
+          <ATable
+            showHeader={false}
+            className='task-table'
+            pagination={{ pageSize: 10, hideOnSinglePage: true, showSizeChanger: false }}
+            columns={columnsTwo}
+            dataSource={taskCanAddTable}
+          />
         </APanel>
       </ACollapse>
     </div>

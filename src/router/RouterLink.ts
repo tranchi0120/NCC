@@ -2,10 +2,10 @@ export enum ERoute {
   HOME = '/',
   LOGIN = '/login',
   PROJECT = '/projects',
-  GENERAL_FORM = '/project/createProject/general',
-  TEAM_FORM = '/project/createProject/team',
-  TASK_FORM = '/project/createProject/task',
-  NOTIFICATION_FORM = '/project/createProject/notification',
+  GENERAL_FORM = '/projects/createProject/general',
+  TEAM_FORM = '/projects/createProject/team',
+  TASK_FORM = '/projects/createProject/task',
+  NOTIFICATION_KOMU = '/projects/createProject/notification',
   NOT_FOUND = '*'
 }
 

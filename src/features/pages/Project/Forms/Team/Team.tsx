@@ -87,11 +87,11 @@ const Team = (): JSX.Element => {
 
   return (
     <div className='team'>
-      <Collapse className='team-left'>
+      <Collapse className='team-left' defaultActiveKey={['1']}>
         <Panel header="Team" key="1">
           <Space className='team-listMember'>
             <div className='team-left__filter'>
-              <Checkbox onChange={(e) => seIsDeactive(e.target.checked)}>Show deactive member</Checkbox>
+              <Checkbox className='team-showmember' onChange={(e) => seIsDeactive(e.target.checked)}>Show deactive member</Checkbox>
               <Search
                 placeholder="search by name, email"
                 className='team-left__search'
@@ -113,7 +113,7 @@ const Team = (): JSX.Element => {
           </Space>
         </Panel>
       </Collapse>
-      <Collapse className='team-right'>
+      <Collapse className='team-right' defaultActiveKey={['1']}>
         <Panel header="Select team member" key="1">
           <Space wrap className=''>
             <div className="team-filter">
@@ -123,7 +123,6 @@ const Team = (): JSX.Element => {
                   className='team-select'
                   showSearch
                   value={branchFilter}
-                  // defaultValue={{ value: 0, label: 'All' }}
                   style={{ width: 200 }}
                   placeholder="Search to Select"
                   optionFilterProp="children"

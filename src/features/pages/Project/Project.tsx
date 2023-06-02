@@ -66,6 +66,7 @@ const Project: FC = () => {
         <h2 className='project-title'>Manage ProJects</h2>
         <div className="project-top">
           <Button
+            className='project-button'
             type='primary'
             onClick={() => handleOpenModal({ title: 'Create Project', children: <FormTabs /> })}> + New ProJect</Button>
           <div className='project-top__search'>

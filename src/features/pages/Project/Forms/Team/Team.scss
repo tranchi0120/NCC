@@ -5,13 +5,18 @@
   &-left {
     width: 1400px;
     &__filter {
+      align-items: end;
+      height: 59px;
       display: flex;
       gap: 30px;
-      align-items: center;
+      justify-content: space-between;
     }
     &__search {
       width: 300px;
     }
+  }
+  &-showmember {
+    font-size: 15px;
   }
   &-select {
     width: 100px !important;

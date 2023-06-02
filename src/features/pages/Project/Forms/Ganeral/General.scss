@@ -3,7 +3,6 @@
   display: flex;
   gap: 80px;
   justify-content: flex-start;
-  align-items: center;
   .input-title {
     width: 130px;
   }
@@ -16,6 +15,7 @@
   .dates-message-error,
   .client-message-error {
     color: red;
+    font-size: 13px;
   }
   .wrapper-project-type {
     display: flex;
@@ -38,10 +38,29 @@
     background: orange;
     color: #ffff;
   }
+  .form-input {
+    position: relative;
+  }
+}
+.wrapper-input:nth-child(5),
+.wrapper-input:nth-child(6),
+.wrapper-input:nth-child(7) {
+  align-items: center;
+  margin-top: -7px;
+}
+.wrapper-input:first-child {
+  height: 55px;
+}
+.wrapper-input:nth-child(5) {
+  height: 100% !important;
 }
 
 .create-form {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 15px;
+}
+
+.new-client-btn {
+  height: 40px;
 }

@@ -29,34 +29,33 @@ const ProjectItem: FC<IProjectItemProps> = ({ projectItem }) => {
       if (projectId == null) {
         return;
       }
-
       await dispatch(DeleteProject(projectId));
     },
     []
   );
 
-  const handleDelete = (id: number): void => {
-    void Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this item!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await dispatch(DeleteProject(id));
-        if (result.type === 'project/deleteProject/fulfilled') {
-          Noti.success({ message: 'Success', description: ' Delete project successfully!' });
-        } else if (result.type === 'project/deleteProject/rejected') {
-          Noti.error({ message: 'Error', description: 'Fail to Delete project!' });
-        }
-      }
-    });
-  };
-
   const getMenuItems = useCallback((project: IAllProjectResponse): MenuProps['items'] => {
+    const handleDelete = (id: number): void => {
+      void Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this item!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const result = await dispatch(DeleteProject(id));
+          if (result.type === 'project/deleteProject/fulfilled') {
+            Noti.success({ message: 'Success', description: ' Delete project successfully!' });
+          } else if (result.type === 'project/deleteProject/rejected') {
+            Noti.error({ message: 'Error', description: 'Fail to Delete project!' });
+          }
+        }
+      });
+    };
+
     const handleActiveOrDeactive = async (): Promise<void> => {
       void Swal.fire({
         title: 'Are you sure?',

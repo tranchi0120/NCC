@@ -14,6 +14,7 @@ import { IFormikValues, ILoginFormState } from '../../../interfaces/interface';
 import InputGroup from '../../../components/InputGroup/InputGroup';
 import Noti from '../../../Noti/notification';
 import ERoute from '../../../router/RouterLink';
+import getAccessToken from '../../../utils/getAccessToken';
 
 const LoginSchema = Yup.object().shape({
   userNameOrEmailAddress: Yup.string()
@@ -27,6 +28,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: FC = () => {
+  const userInfo = getAccessToken();
   const [rememberClient, setRememberClient] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -53,6 +55,12 @@ const Login: FC = () => {
       Noti.success({ message: 'Success', description: 'Login successfully.' });
     }
   };
+
+  React.useEffect(() => {
+    if (userInfo.length > 0) {
+      navigate(ERoute.HOME);
+    }
+  }, []);
 
   return (
     <div className="wrapper">

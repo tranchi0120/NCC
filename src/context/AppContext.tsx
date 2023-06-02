@@ -7,6 +7,7 @@ import { IFormValues, IModalContent } from '../interfaces/interface';
 import Modal from '../components/Modal/Modal';
 
 export interface IAppModal {
+  isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   setModalContent: React.Dispatch<React.SetStateAction<IModalContent>>
   formRef: React.RefObject<FormikProps<IFormValues>>
@@ -22,7 +23,7 @@ const AppProvider: FC<IAppProviderProps> = ({ children }) => {
   const { isOpen, setIsOpen, modalContent, setModalContent } = useModal();
   const formRef = useRef<FormikProps<IFormValues>>(null);
 
-  const store = { setIsOpen, setModalContent, formRef };
+  const store = { isOpen, setIsOpen, setModalContent, formRef };
 
   return (
     <AppContext.Provider value={store}>

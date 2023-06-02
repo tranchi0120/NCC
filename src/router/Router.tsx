@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import ERoute from './RouterLink';
 import Login from '../features/pages/Login/Login';
@@ -7,22 +7,17 @@ import App from '../App';
 import Project from '../features/pages/Project/Project';
 import getAccessToken from '../utils/getAccessToken';
 import Home from '../features/pages/Home/Home';
+import FormTabs from '../features/pages/Project/Forms/FormTabs/FormTabs';
 interface props {
   children: ReactNode
 }
 
 export const PrivateRoute = ({ children }: props): any => {
-  // const navigate = useNavigate();
   const userInfo = getAccessToken();
 
-  useEffect(() => {
-    if (userInfo.length > 0) {
-      <Navigate to={ERoute.HOME} />;
-    } else {
-      <Navigate to={ERoute.LOGIN} />;
-    }
-  }, [userInfo]);
-
+  if (userInfo.length === 0) {
+    return <Navigate to={ERoute.LOGIN} />;
+  }
   return <>{children}</>;
 };
 
@@ -49,7 +44,25 @@ const router = createBrowserRouter([
       },
       {
         path: ERoute.PROJECT,
-        element: <Project />
+        element: <Project />,
+        children: [
+          {
+            path: ERoute.GENERAL_FORM,
+            element: <FormTabs />
+          },
+          {
+            path: ERoute.TEAM_FORM,
+            element: <FormTabs />
+          },
+          {
+            path: ERoute.TASK_FORM,
+            element: <FormTabs />
+          },
+          {
+            path: ERoute.NOTIFICATION_KOMU,
+            element: <FormTabs />
+          }
+        ]
       }
     ]
   }

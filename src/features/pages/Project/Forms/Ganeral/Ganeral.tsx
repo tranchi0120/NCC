@@ -49,7 +49,7 @@ const Ganeral: FC = () => {
 
   const { formRef, setIsOpen } = useContext(AppContext);
   const [clientOptions, setClientOptions] = useState<ICustomerResponse[]>([]);
-  const [projectTypeId, setProjectTypeId] = useState<EProjectType>(1);
+  const [projectTypeId, setProjectTypeId] = useState<EProjectType>(EProjectType.TM);
 
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -95,7 +95,7 @@ const Ganeral: FC = () => {
       return;
     }
     const data = values
-      .map((value) => (((value?.toISOString()) != null) ? value.toISOString() : ''))
+      .map((value) => value?.toISOString() ?? '')
       .join(',')
       .trim();
 
@@ -111,9 +111,6 @@ const Ganeral: FC = () => {
 
       return;
     }
-
-    console.log(userSelectedToSubmit);
-
     if (userSelectedToSubmit.every((item) => item.type !== 1)) {
       Noti.warning({
         message: 'Warning',
@@ -148,7 +145,6 @@ const Ganeral: FC = () => {
     };
 
     const result = await dispatch(CreateProject(submitValues));
-    console.log('result:', result);
     if (result.type === 'project/createProject/fulfilled') {
       Noti.success({ message: 'Success', description: 'Create new project successfully!' });
       setIsOpen(false);

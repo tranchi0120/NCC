@@ -19,6 +19,9 @@
     font-weight: 400;
     font-family: v.$font;
   }
+  &-button {
+    height: 40px;
+  }
   &-top {
     z-index: 10;
     position: relative;

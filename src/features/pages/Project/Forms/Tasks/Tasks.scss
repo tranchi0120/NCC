@@ -1,5 +1,10 @@
 .task {
-  &-name {
+  &-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  q &-name {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -13,4 +18,32 @@
     cursor: pointer !important;
     font-size: 15px;
   }
+  &-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+.ant-table-tbody {
+  height: 550px !important;
+  visibility: visible;
+  overflow-y: scroll;
+}
+
+.tbody.ant-table-tbody {
+  height: 550px !important;
+}
+.task-table {
+  background: #fafafa;
+}
+.close-icon,
+.add-icon {
+  cursor: pointer;
+}
+
+.close-icon:hover,
+.add-icon:hover {
+  color: red;
+  transform: scale(1.5);
+  transition: all 0.2s;
 }
