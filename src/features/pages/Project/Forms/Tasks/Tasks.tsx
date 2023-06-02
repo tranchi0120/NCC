@@ -43,6 +43,7 @@ const Tasks: FC = () => {
   const [taskSelected, setTaskSelected] = useState<ITaskResponse[]>([]);
   const [taskCanAdd, setTaskCanAdd] = useState<ITaskResponse[]>([]);
   const [billable, setBillable] = useState<React.Key[]>([]);
+  console.log('billable:', billable);
 
   const dispatch = useAppDispatch();
 
@@ -57,6 +58,15 @@ const Tasks: FC = () => {
       )
     }));
   }, [taskSelected]);
+
+  const handleRemoveTask = useCallback(
+    (taskId: number): void => {
+      const [taskItem] = tasks.filter((task) => task.id === taskId);
+      setTaskCanAdd((prev) => [taskItem, ...prev]);
+      setTaskSelected((prev) => prev.filter((item) => item.id !== taskId));
+    },
+    [tasks]
+  );
 
   const taskCanAddTable: IDataType[] = useMemo(() => {
     return taskCanAdd.map((task) => ({
@@ -76,15 +86,6 @@ const Tasks: FC = () => {
       const [taskItem] = tasks.filter((task) => task.id === taskId);
       setTaskSelected((prev) => [taskItem, ...prev]);
       setTaskCanAdd((prev) => prev.filter((item) => item.id !== taskId));
-    },
-    [tasks]
-  );
-
-  const handleRemoveTask = useCallback(
-    (taskId: number): void => {
-      const [taskItem] = tasks.filter((task) => task.id === taskId);
-      setTaskCanAdd((prev) => [taskItem, ...prev]);
-      setTaskSelected((prev) => prev.filter((item) => item.id !== taskId));
     },
     [tasks]
   );
@@ -122,7 +123,7 @@ const Tasks: FC = () => {
 
       setTasks(taskData);
       const taskConvert = taskData
-        .slice(0, Math.floor((taskData.length * 9) / 10))
+        .slice(0, Math.floor((taskData.length * 5) / 10))
         .map((item) => ({ taskId: item.id, billable: true }));
       dispatch(addSelectedtask(taskConvert));
     };

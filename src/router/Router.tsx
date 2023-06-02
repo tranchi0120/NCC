@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, useNavigate } from 'react-router-dom';
 import ERoute from './RouterLink';
 import Login from '../features/pages/Login/Login';
 import NotFound from '../features/pages/NotFound/NotFound';
@@ -11,13 +11,18 @@ import FormTabs from '../features/pages/Project/Forms/FormTabs/FormTabs';
 interface props {
   children: ReactNode
 }
-
-export const PrivateRoute = ({ children }: props): any => {
+export const PrivateRoute = ({ children }: props): JSX.Element => {
+  const navigate = useNavigate();
   const userInfo = getAccessToken();
 
-  if (userInfo.length === 0) {
-    return <Navigate to={ERoute.LOGIN} />;
-  }
+  React.useEffect(() => {
+    if (userInfo.length === 0) {
+      navigate(ERoute.LOGIN);
+    } else {
+      navigate(ERoute.HOME);
+    }
+  }, [userInfo, navigate]);
+
   return <>{children}</>;
 };
 
