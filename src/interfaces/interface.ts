@@ -107,6 +107,7 @@ export interface ITask {
 export interface IUser {
   userId: number
   type: number
+  id?: number
 }
 
 export interface IProjectTargetUser {

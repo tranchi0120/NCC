@@ -43,7 +43,6 @@ const Tasks: FC = () => {
   const [taskSelected, setTaskSelected] = useState<ITaskResponse[]>([]);
   const [taskCanAdd, setTaskCanAdd] = useState<ITaskResponse[]>([]);
   const [billable, setBillable] = useState<React.Key[]>([]);
-  console.log('billable:', billable);
 
   const dispatch = useAppDispatch();
 

@@ -40,7 +40,6 @@ const Ganeral: FC = () => {
     projectStatus,
     inputSearchProject,
     projectForm: {
-      userSelected,
       userSelectedToSubmit,
       tasksSelected,
       notification: { isNotifyToKomu, komuChannelId }
@@ -89,8 +88,7 @@ const Ganeral: FC = () => {
     field: FieldInputProps<string>,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void
   ): void => {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (!values) {
+    if (values == null) {
       setFieldValue(field.name, '');
       return;
     }
@@ -102,8 +100,9 @@ const Ganeral: FC = () => {
     setFieldValue(field.name, data);
   };
 
+  console.log('userSelectedToSubmit:', userSelectedToSubmit);
   const onSubmitForm = async (formValues: IFormValues): Promise<void> => {
-    if (userSelected.length === 0) {
+    if (userSelectedToSubmit.length === 0) {
       Noti.warning({
         message: 'Warning',
         description: 'Project must have at least one member!'

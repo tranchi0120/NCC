@@ -33,6 +33,7 @@ const Modal: FC<IModalProps> = ({ modalContent, isOpen, ...rest }) => {
 
   const handleSubmit = (): void => {
     formRef.current?.handleSubmit();
+    navigate(ERoute.PROJECT);
   };
 
   const handleCloseModal = (): void => {
